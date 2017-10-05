@@ -185,8 +185,10 @@ if (process.env.NODE_ENV === 'production') {
     entry: [
       'stack-source-map/register'
     ].concat(
-      glob.sync('./src/main/webapp/**/*spec.js')
-          .map(function (spec) { return path.resolve(spec) })
+      [].concat(
+        glob.sync('./src/main/webapp/**/*spec.js'),
+        glob.sync('./src/main/webapp/**/*e2e.js')
+      ).map(function (spec) { return path.resolve(spec) })
     ),
     devServer: {
       noInfo: true,
@@ -195,7 +197,12 @@ if (process.env.NODE_ENV === 'production') {
       compress: true,
       hot: true,
       host: '0.0.0.0',
-      port: 8181
+      proxy: {
+        '/admin': {
+          target: 'https://localhost:8993',
+          secure: false
+        }
+      }
     },
     plugins: [
       new HtmlWebpackPlugin(),
