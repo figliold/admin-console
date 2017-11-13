@@ -34,7 +34,7 @@ import org.slf4j.LoggerFactory;
 
 public class GraphQLTransformInput {
 
-  private static final Logger LOGGER = LoggerFactory.getLogger(GraphQLTransformInput.class);
+  public static final Logger LOGGER = LoggerFactory.getLogger(GraphQLTransformInput.class);
 
   private GraphQLTransformScalar transformScalars;
   private GraphQLTransformEnum transformEnum;
@@ -57,6 +57,7 @@ public class GraphQLTransformInput {
         .build();
   }
 
+  @SuppressWarnings("squid:S00112" /* Throwing Runtime exception */)
   public GraphQLInputType fieldTypeToGraphQLInputType(Field field) {
     if (inputTypesProvider.isTypePresent(field.getFieldType())) {
       return inputTypesProvider.getType(field.getFieldType());

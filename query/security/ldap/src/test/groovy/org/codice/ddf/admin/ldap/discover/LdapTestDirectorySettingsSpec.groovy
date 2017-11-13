@@ -13,7 +13,6 @@
  **/
 package org.codice.ddf.admin.ldap.discover
 
-import org.codice.ddf.admin.api.fields.FunctionField
 import org.codice.ddf.admin.api.report.FunctionReport
 import org.codice.ddf.admin.common.fields.common.CredentialsField
 import org.codice.ddf.admin.common.fields.common.HostnameField
@@ -32,7 +31,7 @@ import spock.lang.Specification
 
 import static org.codice.ddf.admin.ldap.LdapTestingCommons.*
 import static org.codice.ddf.admin.security.common.fields.ldap.LdapUseCase.AttributeStore.ATTRIBUTE_STORE
-import static org.codice.ddf.admin.security.common.fields.ldap.LdapUseCase.Authentication.AUTHENTICATION
+import static org.codice.ddf.admin.security.common.fields.ldap.LdapUseCase.Authentication.AUTHENTICATION_ENUM
 
 class LdapTestDirectorySettingsSpec extends Specification {
     static final List<Object> FUNCTION_PATH = [LdapTestDirectorySettings.FIELD_NAME]
@@ -159,7 +158,7 @@ class LdapTestDirectorySettingsSpec extends Specification {
 
     def 'fail to connect to LDAP'() {
         setup:
-        def ldapSettings = initLdapSettings(AUTHENTICATION)
+        def ldapSettings = initLdapSettings(AUTHENTICATION_ENUM)
 
         args = [(LdapConnectionField.DEFAULT_FIELD_NAME)       : noEncryptionLdapConnectionInfo().port(666).getValue(),
                 (LdapBindUserInfo.DEFAULT_FIELD_NAME)          : simpleBindInfo().getValue(),
@@ -178,7 +177,7 @@ class LdapTestDirectorySettingsSpec extends Specification {
 
     def 'fail to bind to LDAP'() {
         setup:
-        def ldapSettings = initLdapSettings(AUTHENTICATION)
+        def ldapSettings = initLdapSettings(AUTHENTICATION_ENUM)
 
         args = [(LdapConnectionField.DEFAULT_FIELD_NAME)       : noEncryptionLdapConnectionInfo().getValue(),
                 (LdapBindUserInfo.DEFAULT_FIELD_NAME)          : simpleBindInfo().password('badPassword').getValue(),
@@ -403,7 +402,7 @@ class LdapTestDirectorySettingsSpec extends Specification {
 
     def 'When useCase = Authentication, checkGroupObjectClass, checkGroup, and checkReferencedUser should be applied'() {
         setup:
-        def ldapSettings = initLdapSettings(AUTHENTICATION, true)
+        def ldapSettings = initLdapSettings(AUTHENTICATION_ENUM, true)
         args = [(LdapConnectionField.DEFAULT_FIELD_NAME)       : noEncryptionLdapConnectionInfo().getValue(),
                 (LdapBindUserInfo.DEFAULT_FIELD_NAME)          : simpleBindInfo().getValue(),
                 (LdapDirectorySettingsField.DEFAULT_FIELD_NAME): ldapSettings.getValue()]

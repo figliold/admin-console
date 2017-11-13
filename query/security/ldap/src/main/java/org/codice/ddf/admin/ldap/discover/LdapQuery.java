@@ -155,6 +155,7 @@ public class LdapQuery extends BaseFunctionField<MapField.ListImpl> {
    *
    * @param utils Ldap support utilities
    */
+  @SuppressWarnings("squid:UnusedPrivateMethod")
   private void setTestingUtils(LdapTestingUtils utils) {
     this.utils = utils;
   }

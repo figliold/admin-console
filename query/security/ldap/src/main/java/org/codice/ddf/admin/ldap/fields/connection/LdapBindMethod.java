@@ -38,14 +38,14 @@ public class LdapBindMethod extends BaseEnumField<String> {
   }
 
   public static final class Simple implements EnumValue<String> {
-    public static final String SIMPLE = "Simple";
+    public static final String SIMPLE_ENUM = "Simple";
 
     public static final String DESCRIPTION =
         "Authenticates a client to a server, using a plaintext password";
 
     @Override
     public String getEnumTitle() {
-      return SIMPLE;
+      return SIMPLE_ENUM;
     }
 
     @Override
@@ -55,7 +55,7 @@ public class LdapBindMethod extends BaseEnumField<String> {
 
     @Override
     public String getValue() {
-      return SIMPLE;
+      return SIMPLE_ENUM;
     }
   }
 

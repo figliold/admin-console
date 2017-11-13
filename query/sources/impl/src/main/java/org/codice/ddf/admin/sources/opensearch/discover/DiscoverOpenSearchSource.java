@@ -98,6 +98,7 @@ public class DiscoverOpenSearchSource
   }
 
   /** For testing purposes only. Groovy can access private methods */
+  @SuppressWarnings("squid:UnusedPrivateMethod")
   private void setOpenSearchSourceUtils(OpenSearchSourceUtils openSearchSourceUtils) {
     this.openSearchSourceUtils = openSearchSourceUtils;
   }

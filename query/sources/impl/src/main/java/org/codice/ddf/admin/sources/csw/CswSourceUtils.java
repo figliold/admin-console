@@ -221,6 +221,7 @@ public class CswSourceUtils {
   }
 
   /** For testing purposes only. Groovy can access private methods */
+  @SuppressWarnings("squid:UnusedPrivateMethod")
   private void setRequestUtils(RequestUtils requestUtils) {
     this.requestUtils = requestUtils;
   }

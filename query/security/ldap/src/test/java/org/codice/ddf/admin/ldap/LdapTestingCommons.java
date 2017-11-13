@@ -43,7 +43,7 @@ public class LdapTestingCommons {
 
   public static LdapBindUserInfo simpleBindInfo() {
     return new LdapBindUserInfo()
-        .bindMethod(LdapBindMethod.Simple.SIMPLE)
+        .bindMethod(LdapBindMethod.Simple.SIMPLE_ENUM)
         .username(TestLdapServer.getBasicAuthDn())
         .password(TestLdapServer.getBasicAuthPassword());
   }

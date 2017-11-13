@@ -240,9 +240,9 @@ public class AdminSourcesIT extends AbstractComponentTest {
 
   @Ignore
   @Test
+  @SuppressWarnings("squid:S1607" /*Ignored test remove suppression when test is fixed. */)
   // TODO: 8/23/17 phuffer - In order for the CSW feature to start, the ActionProvider must be
-  // removed
-  //                         from the spatial-csw-transformer blueprint.
+  // removed from the spatial-csw-transformer blueprint. Remove sonar suppression when test is fixed
   public void testCsw() {
     // create CSW source
     Map<String, Object> cswConfigToSave =

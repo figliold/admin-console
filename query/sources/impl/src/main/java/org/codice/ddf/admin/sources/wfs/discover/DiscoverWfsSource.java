@@ -95,6 +95,7 @@ public class DiscoverWfsSource extends BaseFunctionField<WfsSourceConfigurationF
   }
 
   /** For testing purposes only. Groovy can access private methods */
+  @SuppressWarnings("squid:UnusedPrivateMethod")
   private void setWfsSourceUtils(WfsSourceUtils wfsSourceUtils) {
     this.wfsSourceUtils = wfsSourceUtils;
   }

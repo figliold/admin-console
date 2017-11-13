@@ -88,12 +88,11 @@ public class LdapTestBind extends TestFunctionField {
       return;
     }
 
-    if (DIGEST_MD5_SASL.equals(creds.bindMethod())) {
-      // To use MD5, we require an encrypted connection
-      if (!(START_TLS.equals(conn.encryptionMethod()) //
-          || LDAPS.equals(conn.encryptionMethod()))) {
-        addErrorMessage(md5NeedsEncryptedError(creds.bindMethodField().getPath()));
-      }
+    // To use MD5, we require an encrypted connection
+    if (DIGEST_MD5_SASL.equals(creds.bindMethod())
+        && (!(START_TLS.equals(conn.encryptionMethod())
+            || LDAPS.equals(conn.encryptionMethod())))) {
+      addErrorMessage(md5NeedsEncryptedError(creds.bindMethodField().getPath()));
     }
   }
 
@@ -113,6 +112,7 @@ public class LdapTestBind extends TestFunctionField {
    *
    * @param utils Ldap support utilities
    */
+  @SuppressWarnings("squid:UnusedPrivateMethod")
   private void setTestingUtils(LdapTestingUtils utils) {
     this.utils = utils;
   }

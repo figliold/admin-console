@@ -78,14 +78,14 @@ public class CswSpatialOperator extends BaseEnumField<String> {
 
   public static final class Bbox implements EnumValue<String> {
 
-    public static final String BBOX = "BBOX";
+    public static final String BBOX_ENUM = "BBOX";
 
     public static final String DESCRIPTION =
         "Identifies all geometries that spatially interact with a bounding box.";
 
     @Override
     public String getEnumTitle() {
-      return BBOX;
+      return BBOX_ENUM;
     }
 
     @Override
@@ -95,20 +95,20 @@ public class CswSpatialOperator extends BaseEnumField<String> {
 
     @Override
     public String getValue() {
-      return BBOX;
+      return BBOX_ENUM;
     }
   }
 
   public static final class Beyond implements EnumValue<String> {
 
-    public static final String BEYOND = "Beyond";
+    public static final String BEYOND_ENUM = "Beyond";
 
     public static final String DESCRIPTION =
         "Tests whether the value of a geometric property A is beyond a specified distance d of the specified literal geometric value B.";
 
     @Override
     public String getEnumTitle() {
-      return BEYOND;
+      return BEYOND_ENUM;
     }
 
     @Override
@@ -118,20 +118,20 @@ public class CswSpatialOperator extends BaseEnumField<String> {
 
     @Override
     public String getValue() {
-      return BEYOND;
+      return BEYOND_ENUM;
     }
   }
 
   public static final class Contains implements EnumValue<String> {
 
-    public static final String CONTAINS = "Contains";
+    public static final String CONTAINS_ENUM = "Contains";
 
     public static final String DESCRIPTION =
         "Determines whether the second geometry is completely within the first geometry. Contain tests the exact opposite result of within.";
 
     @Override
     public String getEnumTitle() {
-      return CONTAINS;
+      return CONTAINS_ENUM;
     }
 
     @Override
@@ -141,20 +141,20 @@ public class CswSpatialOperator extends BaseEnumField<String> {
 
     @Override
     public String getValue() {
-      return CONTAINS;
+      return CONTAINS_ENUM;
     }
   }
 
   public static final class Crosses implements EnumValue<String> {
 
-    public static final String CROSSES = "Crosses";
+    public static final String CROSSES_ENUM = "Crosses";
 
     public static final String DESCRIPTION =
         "Determines whether two geometric properties cross each other.";
 
     @Override
     public String getEnumTitle() {
-      return CROSSES;
+      return CROSSES_ENUM;
     }
 
     @Override
@@ -164,20 +164,20 @@ public class CswSpatialOperator extends BaseEnumField<String> {
 
     @Override
     public String getValue() {
-      return CROSSES;
+      return CROSSES_ENUM;
     }
   }
 
   public static final class Disjoint implements EnumValue<String> {
 
-    public static final String DISJOINT = "Disjoint";
+    public static final String DISJOINT_ENUM = "Disjoint";
 
     public static final String DESCRIPTION =
         "Determines whether two geometric properties do not intersect.";
 
     @Override
     public String getEnumTitle() {
-      return DISJOINT;
+      return DISJOINT_ENUM;
     }
 
     @Override
@@ -187,20 +187,20 @@ public class CswSpatialOperator extends BaseEnumField<String> {
 
     @Override
     public String getValue() {
-      return DISJOINT;
+      return DISJOINT_ENUM;
     }
   }
 
   public static final class DWithin implements EnumValue<String> {
 
-    public static final String DWITHIN = "DWithin";
+    public static final String DWITHIN_ENUM = "DWithin";
 
     public static final String DESCRIPTION =
         "Determines whether the value of a geometric property A is within a specified distance d of the specified literal geometric value B.";
 
     @Override
     public String getEnumTitle() {
-      return DWITHIN;
+      return DWITHIN_ENUM;
     }
 
     @Override
@@ -210,20 +210,20 @@ public class CswSpatialOperator extends BaseEnumField<String> {
 
     @Override
     public String getValue() {
-      return DWITHIN;
+      return DWITHIN_ENUM;
     }
   }
 
   public static final class Equals implements EnumValue<String> {
 
-    public static final String EQUALS = "Equals";
+    public static final String EQUALS_ENUM = "Equals";
 
     public static final String DESCRIPTION =
         "Determines whether two geometric properties are identical.";
 
     @Override
     public String getEnumTitle() {
-      return EQUALS;
+      return EQUALS_ENUM;
     }
 
     @Override
@@ -233,20 +233,20 @@ public class CswSpatialOperator extends BaseEnumField<String> {
 
     @Override
     public String getValue() {
-      return EQUALS;
+      return EQUALS_ENUM;
     }
   }
 
   public static final class Intersects implements EnumValue<String> {
 
-    public static final String INTERSECTS = "Intersects";
+    public static final String INTERSECTS_ENUM = "Intersects";
 
     public static final String DESCRIPTION =
         "Determines whether two geometric properties intersect with each other.";
 
     @Override
     public String getEnumTitle() {
-      return INTERSECTS;
+      return INTERSECTS_ENUM;
     }
 
     @Override
@@ -256,20 +256,20 @@ public class CswSpatialOperator extends BaseEnumField<String> {
 
     @Override
     public String getValue() {
-      return INTERSECTS;
+      return INTERSECTS_ENUM;
     }
   }
 
   public static final class Overlaps implements EnumValue<String> {
 
-    public static final String OVERLAPS = "Overlaps";
+    public static final String OVERLAPS_ENUM = "Overlaps";
 
     public static final String DESCRIPTION =
         "Determines whether two geometries of the same dimensions overlap. If their intersection produces a geometry different from both and of the same dimension, they overlap.";
 
     @Override
     public String getEnumTitle() {
-      return OVERLAPS;
+      return OVERLAPS_ENUM;
     }
 
     @Override
@@ -279,20 +279,20 @@ public class CswSpatialOperator extends BaseEnumField<String> {
 
     @Override
     public String getValue() {
-      return OVERLAPS;
+      return OVERLAPS_ENUM;
     }
   }
 
   public static final class Touches implements EnumValue<String> {
 
-    public static final String TOUCHES = "Touches";
+    public static final String TOUCHES_ENUM = "Touches";
 
     public static final String DESCRIPTION =
         "Determines if the points of two geometric properties touch, but do not intersect the interiors of each geometry.";
 
     @Override
     public String getEnumTitle() {
-      return TOUCHES;
+      return TOUCHES_ENUM;
     }
 
     @Override
@@ -302,20 +302,20 @@ public class CswSpatialOperator extends BaseEnumField<String> {
 
     @Override
     public String getValue() {
-      return TOUCHES;
+      return TOUCHES_ENUM;
     }
   }
 
   public static final class Within implements EnumValue<String> {
 
-    public static final String WITHIN = "Within";
+    public static final String WITHIN_ENUM = "Within";
 
     public static final String DESCRIPTION =
         "Determines whether the first geometry is completely within the second geometry. Within tests the exact opposite result of contains.";
 
     @Override
     public String getEnumTitle() {
-      return WITHIN;
+      return WITHIN_ENUM;
     }
 
     @Override
@@ -325,7 +325,7 @@ public class CswSpatialOperator extends BaseEnumField<String> {
 
     @Override
     public String getValue() {
-      return WITHIN;
+      return WITHIN_ENUM;
     }
   }
 }

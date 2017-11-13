@@ -22,6 +22,7 @@ import graphql.schema.GraphQLObjectType;
 import graphql.schema.GraphQLOutputType;
 import graphql.schema.GraphQLTypeReference;
 import graphql.servlet.GraphQLTypesProvider;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -41,7 +42,7 @@ import org.slf4j.LoggerFactory;
 
 public class GraphQLTransformOutput {
 
-  private static final Logger LOGGER = LoggerFactory.getLogger(GraphQLTransformOutput.class);
+  public static final Logger LOGGER = LoggerFactory.getLogger(GraphQLTransformOutput.class);
   private GraphQLTransformInput inputTransformer;
   private GraphQLTransformScalar transformScalar;
   private GraphQLTransformEnum transformEnum;
@@ -56,6 +57,7 @@ public class GraphQLTransformOutput {
     referenceTypeProvider = new GraphQLTypesProviderImpl<>();
   }
 
+  @SuppressWarnings("squid:S00112" /* Throwing Runtime exception */)
   public GraphQLOutputType fieldToGraphQLOutputType(Field field) {
     if (outputTypeProvider.isTypePresent(field.getFieldType())) {
       return outputTypeProvider.getType(field.getFieldType());
@@ -184,7 +186,7 @@ public class GraphQLTransformOutput {
               .stream()
               .map(Field::getSanitizedValue)
               .collect(Collectors.toList()),
-          result.getErrorMessages());
+          (Serializable) result.getErrorMessages());
     } else if (result.isResultPresent()) {
       return result.getResult().getSanitizedValue();
     }
@@ -196,16 +198,14 @@ public class GraphQLTransformOutput {
     Object source = env.getSource();
     // If no values are passed for the source, return a field definition to continue the execution
     // strategy instead of returning null. This is an expansion of the PropertyDataFetcher
-    if (source instanceof Map) {
-      if (!((Map) source).isEmpty()) {
-        return ((Map<?, ?>) source).get(field.getFieldName());
-      }
+    if (source instanceof Map && !((Map) source).isEmpty()) {
+      return ((Map<?, ?>) source).get(field.getFieldName());
     }
 
     return field.getSanitizedValue();
   }
 
-  // Add on Payload to avoid collision between an input and output field type name;
+  // Add on Payload to avoid collision between an input and output field type name
   public String createOutputObjectFieldTypeName(String fieldTypeName) {
     return GraphQLTransformCommons.capitalize(fieldTypeName) + "Payload";
   }

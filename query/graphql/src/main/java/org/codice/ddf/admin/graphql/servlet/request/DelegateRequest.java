@@ -37,7 +37,8 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import javax.servlet.http.Part;
 
-// TODO: tbatie - 6/12/17 - Remove this once batched requests are properly implemented
+@SuppressWarnings({"squid:S1135" /* Remove when TODO is completed */, "squid:S2254"})
+// TODO: tbatie - 6/12/17 - Remove this once batched requests are properly implemented.
 public class DelegateRequest implements HttpServletRequest {
 
   private HttpServletRequest request;
@@ -372,13 +373,12 @@ public class DelegateRequest implements HttpServletRequest {
   }
 
   @Override
-  public AsyncContext startAsync() throws IllegalStateException {
+  public AsyncContext startAsync() {
     return request.startAsync();
   }
 
   @Override
-  public AsyncContext startAsync(ServletRequest servletRequest, ServletResponse servletResponse)
-      throws IllegalStateException {
+  public AsyncContext startAsync(ServletRequest servletRequest, ServletResponse servletResponse) {
     return request.startAsync(servletRequest, servletResponse);
   }
 

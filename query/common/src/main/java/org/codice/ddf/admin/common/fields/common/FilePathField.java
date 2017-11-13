@@ -20,7 +20,9 @@ public class FilePathField extends StringField {
 
   public static final String FIELD_TYPE_NAME = "FilePath";
 
-  // TODO: tbatie - 4/3/17 - Enforce file path must be relative to ddf home?
+  @SuppressWarnings("squid:S1135" /* Remove when TODO is completed */)
+  // TODO: tbatie - 4/3/17 - Enforce file path must be relative to ddf home? Remove suppression once
+  // task is completed.
   public static final String DESCRIPTION = "Specifies a unique location in a file system.";
 
   public FilePathField() {

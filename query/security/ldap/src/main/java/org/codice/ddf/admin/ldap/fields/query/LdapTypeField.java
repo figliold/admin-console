@@ -42,11 +42,11 @@ public class LdapTypeField extends BaseEnumField<String> {
     public static final String DESCRIPTION =
         "Use if the type of LDAP is unknown/is not listed in this enum set.";
 
-    public static final String UNKNOWN = "unknown";
+    public static final String UNKNOWN_ENUM = "unknown";
 
     @Override
     public String getEnumTitle() {
-      return UNKNOWN;
+      return UNKNOWN_ENUM;
     }
 
     @Override
@@ -56,7 +56,7 @@ public class LdapTypeField extends BaseEnumField<String> {
 
     @Override
     public String getValue() {
-      return UNKNOWN;
+      return UNKNOWN_ENUM;
     }
   }
 

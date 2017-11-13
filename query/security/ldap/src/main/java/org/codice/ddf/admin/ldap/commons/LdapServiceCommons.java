@@ -18,11 +18,10 @@ import static org.codice.ddf.admin.common.services.ServiceCommons.SERVICE_PID_KE
 import static org.codice.ddf.admin.common.services.ServiceCommons.mapValue;
 import static org.codice.ddf.admin.ldap.fields.connection.LdapEncryptionMethodField.LdapsEncryption.LDAPS;
 import static org.codice.ddf.admin.security.common.fields.ldap.LdapUseCase.AttributeStore.ATTRIBUTE_STORE;
-import static org.codice.ddf.admin.security.common.fields.ldap.LdapUseCase.Authentication.AUTHENTICATION;
+import static org.codice.ddf.admin.security.common.fields.ldap.LdapUseCase.Authentication.AUTHENTICATION_ENUM;
 import static org.codice.ddf.admin.security.common.services.LdapClaimsHandlerServiceProperties.PROPERTY_FILE_LOCATION;
 
 import java.net.URI;
-import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Collections;
@@ -121,6 +120,7 @@ public class LdapServiceCommons {
     return props;
   }
 
+  @SuppressWarnings("squid:S1135" /* Remove when TODO is completed */)
   public Map<String, Object> ldapConfigurationToLdapLoginService(LdapConfigurationField config) {
     Map<String, Object> ldapStsConfig = new HashMap<>();
 
@@ -140,7 +140,7 @@ public class LdapServiceCommons {
           config.bindUserInfoField().credentialsField().password());
       ldapStsConfig.put(
           LdapLoginServiceProperties.BIND_METHOD, config.bindUserInfoField().bindMethod());
-      //        ldapStsConfig.put(KDC_ADDRESS, config.bindKdcAddress());
+      //        ldapStsConfig.put(KDC_ADDRESS, config.bindKdcAddress())
       ldapStsConfig.put(LdapLoginServiceProperties.REALM, config.bindUserInfoField().realm());
 
       ldapStsConfig.put(
@@ -148,7 +148,7 @@ public class LdapServiceCommons {
           config.settingsField().usernameAttribute());
 
       // TODO: oconnormi - 10/02/17 The ui needs to be updated to include a field for the group
-      // member user attribute
+      // member user attribute. Remove sonar suppression when task is completed.
       ldapStsConfig.put(
           LdapLoginServiceProperties.MEMBERSHIP_USER_ATTRIBUTE,
           config.settingsField().groupAttributeHoldingMember() == null
@@ -193,7 +193,7 @@ public class LdapServiceCommons {
     String attributeMappingsPath = mapValue(props, PROPERTY_FILE_LOCATION);
     if (StringUtils.isNotEmpty(attributeMappingsPath)) {
       Path path = Paths.get(attributeMappingsPath).toAbsolutePath();
-      if (Files.exists(path)) {
+      if (path.toFile().exists()) {
         claimMappings = new HashMap<>(configuratorSuite.getPropertyActions().getProperties(path));
       }
     }
@@ -223,7 +223,7 @@ public class LdapServiceCommons {
     if (bindUserInfo.bindMethod() == LdapBindMethod.DigestMd5Sasl.DIGEST_MD5_SASL) {
       bindUserInfo.realm(mapValue(props, LdapLoginServiceProperties.REALM));
     }
-    //        ldapConfiguration.bindKdcAddress((String) props.get(KDC_ADDRESS));
+    //        ldapConfiguration.bindKdcAddress((String) props.get(KDC_ADDRESS))
 
     LdapDirectorySettingsField settings =
         new LdapDirectorySettingsField()
@@ -232,7 +232,7 @@ public class LdapServiceCommons {
                 mapValue(props, LdapLoginServiceProperties.MEMBERSHIP_USER_ATTRIBUTE))
             .baseUserDn(mapValue(props, LdapLoginServiceProperties.USER_BASE_DN))
             .baseGroupDn(mapValue(props, LdapLoginServiceProperties.GROUP_BASE_DN))
-            .useCase(AUTHENTICATION);
+            .useCase(AUTHENTICATION_ENUM);
 
     return new LdapConfigurationField()
         .connection(connection)
@@ -241,6 +241,7 @@ public class LdapServiceCommons {
         .pid(mapValue(props, SERVICE_PID_KEY));
   }
 
+  @SuppressWarnings("squid:S1135" /* Remove when TODO is completed */)
   private LdapConnectionField getLdapConnectionField(
       Map<String, Object> props, String ldapUrl, String startTls) {
     LdapConnectionField connection = new LdapConnectionField();
@@ -248,7 +249,7 @@ public class LdapServiceCommons {
 
     if (ldapUri != null && ldapUri.getScheme() != null) {
       // TODO: tbatie - 8/17/17 - It'd be great if we had some sort of match method in the EnumValue
-      // instead of doing little checks like this
+      // instead of doing little checks like this. Remove sonar suppression when task is completed.
       connection
           .encryptionMethod(
               ldapUri.getScheme().equals("ldap")
@@ -273,12 +274,13 @@ public class LdapServiceCommons {
   }
 
   private static URI getUriFromProperty(String ldapUrl) {
+    String url;
     if (StringUtils.isNotEmpty(ldapUrl)) {
-      ldapUrl = PropertyResolver.resolveProperties(ldapUrl);
-      if (!URI_MATCHER.matcher(ldapUrl).matches()) {
-        ldapUrl = "ldap://" + ldapUrl;
+      url = PropertyResolver.resolveProperties(ldapUrl);
+      if (!URI_MATCHER.matcher(url).matches()) {
+        url = "ldap://" + url;
       }
-      return URI.create(ldapUrl);
+      return URI.create(url);
     }
 
     return null;

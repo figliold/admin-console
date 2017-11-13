@@ -118,6 +118,7 @@ public class LdapRecommendedSettings extends BaseFunctionField<LdapRecommendedSe
    *
    * @param utils Ldap support utilities
    */
+  @SuppressWarnings("squid:UnusedPrivateMethod")
   private void setTestingUtils(LdapTestingUtils utils) {
     this.utils = utils;
   }

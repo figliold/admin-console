@@ -81,6 +81,7 @@ public class LdapTestConnection extends TestFunctionField {
    *
    * @param utils Ldap support utilities
    */
+  @SuppressWarnings("squid:UnusedPrivateMethod")
   private void setTestingUtils(LdapTestingUtils utils) {
     this.utils = utils;
   }

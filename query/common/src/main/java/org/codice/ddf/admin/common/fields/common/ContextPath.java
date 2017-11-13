@@ -46,11 +46,6 @@ public class ContextPath extends StringField {
   }
 
   @Override
-  public void setValue(String value) {
-    super.setValue(value);
-  }
-
-  @Override
   public List<ErrorMessage> validate() {
     List<ErrorMessage> msgs = super.validate();
     if (!msgs.isEmpty()) {
@@ -110,7 +105,7 @@ public class ContextPath extends StringField {
       }
 
       int slash2Count = countToken(path);
-      return !(slash2Count > 0);
+      return slash2Count <= 0;
     }
 
     private int countToken(String target) {
@@ -141,9 +136,10 @@ public class ContextPath extends StringField {
     }
 
     @Override
+    @SuppressWarnings("squid:S1135" /* Remove when TODO is completed */)
     public ListImpl add(ContextPath value) {
       // TODO: tbatie - 8/17/17 - Temporary work around, there should be SetField implemented here
-      // instead
+      // instead. Remove sonar suppression when task is completed.
       boolean match = elements.stream().anyMatch(path -> path.getValue().equals(value.getValue()));
       if (!match) {
         super.add(value);

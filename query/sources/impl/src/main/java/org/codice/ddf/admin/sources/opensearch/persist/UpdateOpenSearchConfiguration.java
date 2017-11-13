@@ -63,8 +63,13 @@ public class UpdateOpenSearchConfiguration extends BaseFunctionField<BooleanFiel
   }
 
   @Override
+  @SuppressWarnings({
+    "squid:CommentedOutCodeLine",
+    "squid:S1135" /* Remove when TODO is completed */
+  })
   public BooleanField performFunction() {
-    // TODO: 8/23/17 phuffer - Uncommnt once feature starts correctly
+    // TODO: 8/23/17 phuffer - Uncomment once feature starts correctly and remove both sonar
+    // suppression
     //        Configurator configurator = configuratorSuite.getConfiguratorFactory()
     //                .getConfigurator();
     //        configurator.add(configuratorSuite.getFeatureActions()

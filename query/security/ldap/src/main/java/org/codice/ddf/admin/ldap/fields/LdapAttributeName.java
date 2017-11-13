@@ -61,8 +61,10 @@ public class LdapAttributeName extends StringField {
     return errors;
   }
 
+  @SuppressWarnings("squid:S1135" /* Remove when TODO is completed */)
   // TODO: 7/7/17 - tbatie - This validate should be reformatted once there is a generic way to
-  // create MapField objects that contain different value field.
+  // create MapField objects that contain different value field. Remove sonar suppression when task
+  // is completed.
   public static List<ErrorMessage> validate(String attribute, List<Object> path) {
     List<ErrorMessage> errors = new ArrayList<>();
 

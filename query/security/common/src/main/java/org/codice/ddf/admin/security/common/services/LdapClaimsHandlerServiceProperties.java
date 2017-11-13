@@ -30,6 +30,7 @@ public class LdapClaimsHandlerServiceProperties {
 
   public static final String LDAP_BIND_USER_DN = "ldapBindUserDn";
 
+  @SuppressWarnings("squid:S2068" /* Used internally as a place-holder. */)
   public static final String PASSWORD = "password";
 
   public static final String BIND_METHOD = "bindMethod";

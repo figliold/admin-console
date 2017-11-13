@@ -95,6 +95,7 @@ public class DiscoverCswSource extends BaseFunctionField<CswSourceConfigurationF
   }
 
   /** For testing purposes only. Groovy can access private methods */
+  @SuppressWarnings("squid:UnusedPrivateMethod")
   private void setCswSourceUtils(CswSourceUtils cswSourceUtils) {
     this.cswSourceUtils = cswSourceUtils;
   }

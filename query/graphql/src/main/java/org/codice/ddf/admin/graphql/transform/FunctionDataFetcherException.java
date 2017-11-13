@@ -14,22 +14,22 @@
 package org.codice.ddf.admin.graphql.transform;
 
 import com.google.common.collect.ImmutableMap;
+import java.io.Serializable;
 import java.util.List;
 import java.util.Map;
 import org.boon.Boon;
-import org.codice.ddf.admin.api.report.ErrorMessage;
 
 public class FunctionDataFetcherException extends RuntimeException {
 
-  private List<ErrorMessage> customMessages;
+  private final Serializable customMessages;
 
   public FunctionDataFetcherException(
-      String functionName, List<Object> args, List<ErrorMessage> customMessages) {
+      String functionName, List<Object> args, Serializable customMessages) {
     super(Boon.toPrettyJson(toMap(functionName, args, customMessages)));
     this.customMessages = customMessages;
   }
 
-  public List<ErrorMessage> getCustomMessages() {
+  public Serializable getCustomMessages() {
     return customMessages;
   }
 
@@ -43,7 +43,7 @@ public class FunctionDataFetcherException extends RuntimeException {
   }
 
   private static Map<String, Object> toMap(
-      String functionName, List<Object> args, List<ErrorMessage> customMessage) {
+      String functionName, List<Object> args, Serializable customMessage) {
     return ImmutableMap.of("functionName", functionName, "args", args, "errors", customMessage);
   }
 }

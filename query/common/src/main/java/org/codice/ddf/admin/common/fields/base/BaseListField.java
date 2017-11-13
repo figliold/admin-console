@@ -30,7 +30,7 @@ import org.slf4j.LoggerFactory;
 public abstract class BaseListField<T extends Field> extends BaseField<List>
     implements ListField<T> {
 
-  private static final Logger LOGGER = LoggerFactory.getLogger(BaseListField.class);
+  public static final Logger LOGGER = LoggerFactory.getLogger(BaseListField.class);
 
   protected List<T> elements;
 
@@ -71,6 +71,7 @@ public abstract class BaseListField<T extends Field> extends BaseField<List>
   }
 
   @Override
+  @SuppressWarnings("squid:S00112" /* Throwing RuntimeException */)
   public T createListEntry() {
     try {
       return getCreateListEntryCallable().call();
@@ -90,7 +91,7 @@ public abstract class BaseListField<T extends Field> extends BaseField<List>
 
   @Override
   public BaseListField<T> addAll(Collection<T> values) {
-    values.forEach(field -> add(field));
+    values.forEach(this::add);
     return this;
   }
 

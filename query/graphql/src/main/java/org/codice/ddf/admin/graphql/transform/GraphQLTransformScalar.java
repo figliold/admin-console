@@ -39,9 +39,7 @@ public class GraphQLTransformScalar {
             field.getFieldType() == null
                 ? Scalars.GraphQLInt
                 : new GraphQLScalarType(
-                    field.getFieldType(),
-                    field.getDescription(),
-                    Scalars.GraphQLInt.getCoercing());
+                    field.getFieldType(), field.getDescription(), Scalars.GraphQLInt.getCoercing());
         break;
 
       case BOOLEAN:
