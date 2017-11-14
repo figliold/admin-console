@@ -21,6 +21,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 import org.codice.ddf.admin.api.Field;
 import org.codice.ddf.admin.api.fields.ObjectField;
@@ -100,7 +101,7 @@ public abstract class BaseObjectField extends BaseField<Map<String, Object>>
         .addAll(
             getFields()
                 .stream()
-                .map(field -> field.getErrorCodes())
+                .map((Function<Field, Set>) Field::getErrorCodes)
                 .flatMap(Collection<String>::stream)
                 .collect(Collectors.toList()))
         .build();

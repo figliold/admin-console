@@ -249,7 +249,9 @@ public class AdminSecurityIT extends AbstractComponentTest {
     CredentialsField creds = new CredentialsField().username(TEST_USERNAME).password(TEST_PASSWORD);
 
     LdapBindUserInfo bindUserInfo =
-        new LdapBindUserInfo().bindMethod(LdapBindMethod.Simple.SIMPLE).credentialsField(creds);
+        new LdapBindUserInfo()
+            .bindMethod(LdapBindMethod.Simple.SIMPLE_ENUM)
+            .credentialsField(creds);
 
     LdapConnectionField connection =
         new LdapConnectionField()
@@ -269,9 +271,7 @@ public class AdminSecurityIT extends AbstractComponentTest {
         || ldapUseCase
             .getValue()
             .equals(LdapUseCase.AUTHENTICATION_AND_ATTRIBUTE_STORE.getValue())) {
-      dirSettings
-          .groupObjectClass(TEST_ATTRIBUTE)
-          .memberAttributeReferencedInGroup(TEST_ATTRIBUTE);
+      dirSettings.groupObjectClass(TEST_ATTRIBUTE).memberAttributeReferencedInGroup(TEST_ATTRIBUTE);
 
       newConfig.claimMappingsField(
           new ClaimsMapEntry.ListImpl()

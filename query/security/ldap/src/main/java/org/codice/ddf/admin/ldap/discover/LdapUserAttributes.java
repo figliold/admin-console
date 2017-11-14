@@ -13,6 +13,7 @@
  */
 package org.codice.ddf.admin.ldap.discover;
 
+import com.google.common.annotations.VisibleForTesting;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableSet;
 import java.io.IOException;
@@ -83,16 +84,8 @@ public class LdapUserAttributes extends BaseFunctionField<StringField.ListImpl> 
         return null;
       }
 
-      Set<String> ldapEntryAttributes = new HashSet<>();
       ServerGuesser serverGuesser = ServerGuesser.buildGuesser(connectionAttempt.getResult());
-      try {
-        ldapEntryAttributes = serverGuesser.getClaimAttributeOptions(baseUserDn.getValue());
-
-      } catch (SearchResultReferenceIOException | LdapException e) {
-        LOGGER.warn(
-            "Error retrieving attributes from LDAP server; this may indicate a "
-                + "configuration issue with config.");
-      }
+      Set<String> ldapEntryAttributes = getServerGuesserClaimAttribute(serverGuesser);
 
       entries = new StringField.ListImpl();
       entries.setValue(Arrays.asList(ldapEntryAttributes.toArray()));
@@ -102,6 +95,19 @@ public class LdapUserAttributes extends BaseFunctionField<StringField.ListImpl> 
     }
 
     return entries;
+  }
+
+  private Set<String> getServerGuesserClaimAttribute(ServerGuesser serverGuesser) {
+    Set<String> ldapEntryAttributes = new HashSet<>();
+    try {
+      ldapEntryAttributes = serverGuesser.getClaimAttributeOptions(baseUserDn.getValue());
+
+    } catch (SearchResultReferenceIOException | LdapException e) {
+      LOGGER.warn(
+          "Error retrieving attributes from LDAP server; this may indicate a "
+              + "configuration issue with config.");
+    }
+    return ldapEntryAttributes;
   }
 
   @Override
@@ -129,6 +135,7 @@ public class LdapUserAttributes extends BaseFunctionField<StringField.ListImpl> 
    *
    * @param utils Ldap support utilities
    */
+  @VisibleForTesting
   private void setTestingUtils(LdapTestingUtils utils) {
     this.utils = utils;
   }

@@ -57,11 +57,11 @@ class GraphQLTransformationTest extends Specification {
             (TestObjectField.HIDDEN_FIELD_NAME)            : HIDDEN_FIELD_RETURN_VALUE
     ]
 
-    static STRING = StringField.DEFAULT_FIELD_NAME
+    static STRING = StringField.STRING_FIELD_DEFAULT_FIELD_NAME
 
     static BOOLEAN = BooleanField.DEFAULT_FIELD_NAME
 
-    static INTEGER = IntegerField.DEFAULT_FIELD_NAME
+    static INTEGER = IntegerField.INTEGER_FIELD_DEFAULT_FIELD_NAME
 
     static LIST = TestFieldProvider.LIST_FIELD_NAME
 
@@ -451,7 +451,7 @@ class GraphQLTransformationTest extends Specification {
         return [
                 path: path,
                 message: code,
-                "locations": null,
+                "locations": [],
                 "errorType": "DataFetchingException",
                 "extensions": null
         ]

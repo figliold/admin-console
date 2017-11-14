@@ -13,6 +13,7 @@
  */
 package org.codice.ddf.admin.ldap.discover;
 
+import com.google.common.annotations.VisibleForTesting;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableSet;
 import java.io.IOException;
@@ -118,6 +119,7 @@ public class LdapRecommendedSettings extends BaseFunctionField<LdapRecommendedSe
    *
    * @param utils Ldap support utilities
    */
+  @VisibleForTesting
   private void setTestingUtils(LdapTestingUtils utils) {
     this.utils = utils;
   }

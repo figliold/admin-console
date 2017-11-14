@@ -22,6 +22,7 @@ import javax.servlet.ServletOutputStream;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletResponse;
 
+@SuppressWarnings("squid:S1135" /* Remove when TODO is completed */)
 // TODO: tbatie - 6/12/17 - Remove this once batched requests are properly implemented
 public class DelegateResponse implements HttpServletResponse {
   private HttpServletResponse servletResponse;

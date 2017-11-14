@@ -21,7 +21,8 @@ public interface FieldProvider extends ObjectField {
 
   List<FunctionField> getDiscoveryFunctions();
 
+  @SuppressWarnings("squid:S1135" /* Remove when TODO is completed */)
   // TODO: tbatie - 5/16/17 - Should we make this return fields instead? It could be reused for a
-  // rest endpoint but not for graphql
+  // rest endpoint but not for graphql. Remove suppression once task is completed.
   List<FunctionField> getMutationFunctions();
 }

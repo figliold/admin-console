@@ -15,7 +15,7 @@ package org.codice.ddf.admin.ldap.embedded;
 
 import static org.codice.ddf.admin.common.report.message.DefaultMessages.failedPersistError;
 import static org.codice.ddf.admin.security.common.fields.ldap.LdapUseCase.AttributeStore.ATTRIBUTE_STORE;
-import static org.codice.ddf.admin.security.common.fields.ldap.LdapUseCase.Authentication.AUTHENTICATION;
+import static org.codice.ddf.admin.security.common.fields.ldap.LdapUseCase.Authentication.AUTHENTICATION_ENUM;
 import static org.codice.ddf.admin.security.common.fields.ldap.LdapUseCase.AuthenticationAndAttributeStore.AUTHENTICATION_AND_ATTRIBUTE_STORE;
 import static org.codice.ddf.admin.security.common.services.EmbeddedLdapServiceProperties.ALL_DEFAULT_EMBEDDED_LDAP_CONFIG_FEATURE;
 import static org.codice.ddf.admin.security.common.services.EmbeddedLdapServiceProperties.DEFAULT_EMBEDDED_LDAP_CLAIMS_HANDLER_CONFIG_FEATURE;
@@ -71,29 +71,24 @@ public class InstallEmbeddedLdap extends BaseFunctionField<BooleanField> {
   }
 
   @Override
+  @SuppressWarnings("squid:SwitchLastCaseIsDefaultCheck" /* No default case */)
   public BooleanField performFunction() {
     Configurator configurator = configuratorFactory.getConfigurator();
     configurator.add(featureActions.start(EMBEDDED_LDAP_FEATURE));
 
     switch (useCase.getValue()) {
-      case AUTHENTICATION:
+      case AUTHENTICATION_ENUM:
         configurator.add(featureActions.start(LDAP_LOGIN_FEATURE));
-        configurator.add(
-            featureActions.start(
-                DEFAULT_EMBEDDED_LDAP_LOGIN_CONFIG_FEATURE));
+        configurator.add(featureActions.start(DEFAULT_EMBEDDED_LDAP_LOGIN_CONFIG_FEATURE));
         break;
       case ATTRIBUTE_STORE:
         configurator.add(featureActions.start(LDAP_CLAIMS_HANDLER_FEATURE));
-        configurator.add(
-            featureActions.start(
-                DEFAULT_EMBEDDED_LDAP_CLAIMS_HANDLER_CONFIG_FEATURE));
+        configurator.add(featureActions.start(DEFAULT_EMBEDDED_LDAP_CLAIMS_HANDLER_CONFIG_FEATURE));
         break;
       case AUTHENTICATION_AND_ATTRIBUTE_STORE:
         configurator.add(featureActions.start(LDAP_LOGIN_FEATURE));
         configurator.add(featureActions.start(LDAP_CLAIMS_HANDLER_FEATURE));
-        configurator.add(
-            featureActions.start(
-                ALL_DEFAULT_EMBEDDED_LDAP_CONFIG_FEATURE));
+        configurator.add(featureActions.start(ALL_DEFAULT_EMBEDDED_LDAP_CONFIG_FEATURE));
         break;
     }
 

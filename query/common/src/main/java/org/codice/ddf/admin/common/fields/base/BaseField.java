@@ -91,14 +91,10 @@ public abstract class BaseField<T> implements Field<T> {
   public List<ErrorMessage> validate() {
     List<ErrorMessage> errors = new ArrayList<>();
 
-    if (isRequired()) {
-      if (getValue() == null) {
-        errors.add(missingRequiredFieldError(getPath()));
-      } else if (getValue() instanceof List && ((List) getValue()).isEmpty()) {
-        errors.add(missingRequiredFieldError(getPath()));
-      }
+    if (isRequired()
+        && (getValue() == null || (getValue() instanceof List && ((List) getValue()).isEmpty()))) {
+      errors.add(missingRequiredFieldError(getPath()));
     }
-
     return errors;
   }
 

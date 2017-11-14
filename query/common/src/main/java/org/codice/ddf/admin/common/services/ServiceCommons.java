@@ -35,12 +35,8 @@ import org.osgi.framework.BundleContext;
 import org.osgi.framework.FrameworkUtil;
 import org.osgi.service.event.Event;
 import org.osgi.service.event.EventAdmin;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 public class ServiceCommons {
-
-  private static final Logger LOGGER = LoggerFactory.getLogger(ServiceCommons.class);
 
   public static final String SERVICE_PID_KEY = "service.pid";
 
@@ -48,6 +44,7 @@ public class ServiceCommons {
 
   // A flag to indicate if a service being updated has a password of "secret". If so, the
   // password will not be updated.
+  @SuppressWarnings("squid:S2068")
   public static final String FLAG_PASSWORD = "secret";
 
   private final ConfiguratorSuite configuratorSuite;
@@ -64,11 +61,13 @@ public class ServiceCommons {
     return Arrays.stream(list).map(this::resolveProperty).collect(Collectors.toList());
   }
 
+  @SuppressWarnings("squid:S1135" /* Remove when TODO is completed */)
   public Report<Void> createManagedService(Map<String, Object> serviceProps, String factoryPid) {
     Configurator configurator = configuratorSuite.getConfiguratorFactory().getConfigurator();
     configurator.add(configuratorSuite.getManagedServiceActions().create(factoryPid, serviceProps));
 
-    // TODO RAP 13 Jul 17: Blank out password in the parameters passed here
+    // TODO RAP 13 Jul 17: Blank out password in the parameters passed here. Remove sonar
+    // suppression when task is completed
     if (configurator
         .commit("Service saved with details [{}]", serviceProps.toString())
         .containsFailedResults()) {
@@ -78,6 +77,7 @@ public class ServiceCommons {
     return Reports.emptyReport();
   }
 
+  @SuppressWarnings("squid:S1135" /* Remove when TODO is completed */)
   public Report<Void> updateService(PidField servicePid, Map<String, Object> newConfig) {
     Report report = serviceConfigurationExists(servicePid);
     if (report.containsErrorMessages()) {
@@ -88,7 +88,8 @@ public class ServiceCommons {
     Configurator configurator = configuratorSuite.getConfiguratorFactory().getConfigurator();
     configurator.add(configuratorSuite.getServiceActions().build(pid, newConfig, true));
 
-    // TODO RAP 13 Jul 17: Blank out password in the parameters passed here
+    // TODO RAP 13 Jul 17: Blank out password in the parameters passed here. Remove sonar
+    // suppression when task is completed
     OperationReport operationReport =
         configurator.commit(
             "Updated config with pid [{}] and new service properties [{}]",

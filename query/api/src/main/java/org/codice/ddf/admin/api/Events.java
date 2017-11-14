@@ -13,6 +13,7 @@
  */
 package org.codice.ddf.admin.api;
 
+@SuppressWarnings("squid:S1214" /* Keeping these constants in this interface */)
 public interface Events {
 
   String REFRESH_SCHEMA = "graphql/servlet/REFRESH_SCHEMA";

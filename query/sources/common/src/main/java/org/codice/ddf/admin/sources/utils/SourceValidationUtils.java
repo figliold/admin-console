@@ -36,6 +36,7 @@ public class SourceValidationUtils {
     serviceCommons = new ServiceCommons(configuratorSuite);
   }
 
+  @SuppressWarnings("squid:S1135" /* Remove when TODO is completed */)
   private boolean findSourceNameMatch(String servicePid, String sourceName) {
     Source source =
         sourceUtilCommons
@@ -43,7 +44,7 @@ public class SourceValidationUtils {
             .stream()
             .map(ConfiguredService.class::cast)
             // TODO: 8/22/17 phuffer - this doesn't work for OpenSearch - opensearch sources get
-            // null pids back
+            // null pids back. Remove sonar suppression when task is completed
             .filter(configuredService -> servicePid.equals(configuredService.getConfigurationPid()))
             .findFirst()
             .map(Source.class::cast)

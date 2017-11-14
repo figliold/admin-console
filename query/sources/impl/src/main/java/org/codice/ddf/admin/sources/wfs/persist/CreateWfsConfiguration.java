@@ -59,8 +59,13 @@ public class CreateWfsConfiguration extends BaseFunctionField<BooleanField> {
   }
 
   @Override
+  @SuppressWarnings({
+    "squid:CommentedOutCodeLine",
+    "squid:S1135" /* Remove when TODO is completed */
+  })
   public BooleanField performFunction() {
-    // TODO: 8/23/17 phuffer - Uncomment when features start up correctly
+    // TODO: 8/23/17 phuffer - Uncomment when features start up correctly. Remove both sonar
+    // suppression when task is completed.
     //        Configurator configurator = configuratorSuite.getConfiguratorFactory()
     //                .getConfigurator();
     //        OperationReport report = null;

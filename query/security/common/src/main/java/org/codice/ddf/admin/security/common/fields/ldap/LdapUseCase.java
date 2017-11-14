@@ -46,7 +46,7 @@ public class LdapUseCase extends BaseEnumField<String> {
   }
 
   public boolean isAuthentication() {
-    return Authentication.AUTHENTICATION.equals(getValue())
+    return Authentication.AUTHENTICATION_ENUM.equals(getValue())
         || AuthenticationAndAttributeStore.AUTHENTICATION_AND_ATTRIBUTE_STORE.equals(getValue());
   }
 
@@ -60,11 +60,11 @@ public class LdapUseCase extends BaseEnumField<String> {
     public static final String DESCRIPTION =
         "Indicates the LDAP is intended to be used as a source to login into.";
 
-    public static final String AUTHENTICATION = "Authentication";
+    public static final String AUTHENTICATION_ENUM = "Authentication";
 
     @Override
     public String getEnumTitle() {
-      return AUTHENTICATION;
+      return AUTHENTICATION_ENUM;
     }
 
     @Override
@@ -74,7 +74,7 @@ public class LdapUseCase extends BaseEnumField<String> {
 
     @Override
     public String getValue() {
-      return AUTHENTICATION;
+      return AUTHENTICATION_ENUM;
     }
   }
 

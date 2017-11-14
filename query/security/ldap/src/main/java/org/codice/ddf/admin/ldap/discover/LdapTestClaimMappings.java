@@ -15,6 +15,7 @@ package org.codice.ddf.admin.ldap.discover;
 
 import static org.codice.ddf.admin.ldap.commons.LdapMessages.userAttributeNotFoundError;
 
+import com.google.common.annotations.VisibleForTesting;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableSet;
 import java.io.IOException;
@@ -101,6 +102,7 @@ public class LdapTestClaimMappings extends TestFunctionField {
   }
 
   @Override
+  @SuppressWarnings("squid:S1135" /* Remove when TODO is completed */)
   public void validate() {
     super.validate();
 
@@ -121,7 +123,7 @@ public class LdapTestClaimMappings extends TestFunctionField {
 
     // TODO: 7/7/17 - tbatie - Currently the ClaimsMapEntry contains a StringField as a value. It
     // really should be a LdapAttributeName. Fix this once there is a generic way to create MapField
-    // objects that contain different value field.
+    // objects that contain different value field. Remove suppression when task is completed.
 
     claimMappings
         .getList()
@@ -198,6 +200,7 @@ public class LdapTestClaimMappings extends TestFunctionField {
    *
    * @param utils Ldap support utilities
    */
+  @VisibleForTesting
   private void setTestingUtils(LdapTestingUtils utils) {
     this.utils = utils;
   }
@@ -209,6 +212,7 @@ public class LdapTestClaimMappings extends TestFunctionField {
    *
    * @param stsServiceProperties service properties for mocking
    */
+  @VisibleForTesting
   private void setStsServiceProperties(StsServiceProperties stsServiceProperties) {
     this.stsServiceProperties = stsServiceProperties;
   }
