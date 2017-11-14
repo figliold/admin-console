@@ -35,12 +35,8 @@ import org.osgi.framework.BundleContext;
 import org.osgi.framework.FrameworkUtil;
 import org.osgi.service.event.Event;
 import org.osgi.service.event.EventAdmin;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 public class ServiceCommons {
-
-  public static final Logger LOGGER = LoggerFactory.getLogger(ServiceCommons.class);
 
   public static final String SERVICE_PID_KEY = "service.pid";
 

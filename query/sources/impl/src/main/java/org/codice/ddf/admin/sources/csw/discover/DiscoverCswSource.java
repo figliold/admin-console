@@ -13,6 +13,7 @@
  */
 package org.codice.ddf.admin.sources.csw.discover;
 
+import com.google.common.annotations.VisibleForTesting;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableSet;
 import java.util.List;
@@ -95,7 +96,7 @@ public class DiscoverCswSource extends BaseFunctionField<CswSourceConfigurationF
   }
 
   /** For testing purposes only. Groovy can access private methods */
-  @SuppressWarnings("squid:UnusedPrivateMethod")
+  @VisibleForTesting
   private void setCswSourceUtils(CswSourceUtils cswSourceUtils) {
     this.cswSourceUtils = cswSourceUtils;
   }

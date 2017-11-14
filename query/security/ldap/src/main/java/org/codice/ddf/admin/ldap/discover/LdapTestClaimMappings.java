@@ -15,6 +15,7 @@ package org.codice.ddf.admin.ldap.discover;
 
 import static org.codice.ddf.admin.ldap.commons.LdapMessages.userAttributeNotFoundError;
 
+import com.google.common.annotations.VisibleForTesting;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableSet;
 import java.io.IOException;
@@ -199,7 +200,7 @@ public class LdapTestClaimMappings extends TestFunctionField {
    *
    * @param utils Ldap support utilities
    */
-  @SuppressWarnings("squid:UnusedPrivateMethod")
+  @VisibleForTesting
   private void setTestingUtils(LdapTestingUtils utils) {
     this.utils = utils;
   }
@@ -211,7 +212,7 @@ public class LdapTestClaimMappings extends TestFunctionField {
    *
    * @param stsServiceProperties service properties for mocking
    */
-  @SuppressWarnings("squid:UnusedPrivateMethod")
+  @VisibleForTesting
   private void setStsServiceProperties(StsServiceProperties stsServiceProperties) {
     this.stsServiceProperties = stsServiceProperties;
   }

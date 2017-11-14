@@ -37,12 +37,9 @@ import org.codice.ddf.admin.api.fields.ObjectField;
 import org.codice.ddf.admin.api.fields.ScalarField;
 import org.codice.ddf.admin.api.report.FunctionReport;
 import org.codice.ddf.admin.graphql.GraphQLTypesProviderImpl;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 public class GraphQLTransformOutput {
 
-  public static final Logger LOGGER = LoggerFactory.getLogger(GraphQLTransformOutput.class);
   private GraphQLTransformInput inputTransformer;
   private GraphQLTransformScalar transformScalar;
   private GraphQLTransformEnum transformEnum;

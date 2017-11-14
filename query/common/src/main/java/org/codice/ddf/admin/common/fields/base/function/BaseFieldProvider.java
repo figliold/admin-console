@@ -20,12 +20,8 @@ import org.codice.ddf.admin.api.FieldProvider;
 import org.codice.ddf.admin.api.fields.FunctionField;
 import org.codice.ddf.admin.common.fields.base.BaseObjectField;
 import org.codice.ddf.admin.common.services.ServiceCommons;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 public abstract class BaseFieldProvider extends BaseObjectField implements FieldProvider {
-
-  public static final Logger LOGGER = LoggerFactory.getLogger(BaseFieldProvider.class);
 
   private static final String BINDING_FUNCTION = "Binding function to field provider %s";
   private static final String UNBINDING_FUNCTION = "Unbinding function from field provider %s";

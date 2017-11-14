@@ -24,13 +24,9 @@ import java.util.stream.Collectors;
 import org.codice.ddf.admin.api.Field;
 import org.codice.ddf.admin.api.fields.ListField;
 import org.codice.ddf.admin.api.report.ErrorMessage;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 public abstract class BaseListField<T extends Field> extends BaseField<List>
     implements ListField<T> {
-
-  public static final Logger LOGGER = LoggerFactory.getLogger(BaseListField.class);
 
   protected List<T> elements;
 
