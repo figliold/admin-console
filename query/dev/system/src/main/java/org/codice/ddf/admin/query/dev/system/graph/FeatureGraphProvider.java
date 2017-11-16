@@ -13,6 +13,7 @@
  */
 package org.codice.ddf.admin.query.dev.system.graph;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -23,7 +24,6 @@ import org.jgrapht.ext.ComponentAttributeProvider;
 import org.jgrapht.ext.GraphMLExporter;
 
 import com.google.common.collect.ImmutableList;
-import com.google.common.collect.ImmutableMap;
 
 public class FeatureGraphProvider {
 
@@ -102,17 +102,13 @@ public class FeatureGraphProvider {
 
     @Override
     public Map<String, String> getComponentAttributes(FeatureField feature) {
-      return ImmutableMap.of(
-          FEATURE_NAME,
-          feature.name(),
-          FEATURE_ID,
-          feature.id(),
-          FEATURE_STATE,
-          feature.state(),
-          FEATURE_DESCRIPTION,
-          feature.featDescription(),
-          FEATURE_REPO_URL,
-          feature.repoUrl().getValue());
+      Map<String, String> attributes = new HashMap<>();
+      attributes.put(FEATURE_NAME, feature.name());
+      attributes.put(FEATURE_ID, feature.id());
+      attributes.put(FEATURE_STATE, feature.state());
+      attributes.put(FEATURE_DESCRIPTION, feature.featDescription());
+      attributes.put(FEATURE_REPO_URL, feature.repoUrl());
+      return attributes;
     }
 
     public List<GraphMLAttribute> getAttributes() {

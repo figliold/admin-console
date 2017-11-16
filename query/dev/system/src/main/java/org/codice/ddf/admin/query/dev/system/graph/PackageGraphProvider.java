@@ -13,6 +13,7 @@
  */
 package org.codice.ddf.admin.query.dev.system.graph;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -21,7 +22,6 @@ import org.jgrapht.ext.ComponentAttributeProvider;
 import org.jgrapht.ext.GraphMLExporter;
 
 import com.google.common.collect.ImmutableList;
-import com.google.common.collect.ImmutableMap;
 
 public class PackageGraphProvider {
 
@@ -41,7 +41,9 @@ public class PackageGraphProvider {
 
     @Override
     public Map<String, String> getComponentAttributes(DependencyEdge<PackageField> pkg) {
-      return ImmutableMap.of(PKG_NAME, pkg.value().pkgName());
+      Map<String, String> attributes = new HashMap<>();
+      attributes.put(PKG_NAME, pkg.value().pkgName());
+      return attributes;
     }
   }
 }

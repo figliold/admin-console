@@ -27,6 +27,11 @@ public class IntegerField extends BaseScalarField<Integer> {
     this(DEFAULT_FIELD_NAME);
   }
 
+  public IntegerField(int value) {
+    this();
+    setValue(value);
+  }
+
   public IntegerField(String fieldName) {
     super(fieldName, null, null, INTEGER);
   }

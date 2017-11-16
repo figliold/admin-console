@@ -13,6 +13,7 @@
  */
 package org.codice.ddf.admin.query.dev.system.graph;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -21,7 +22,6 @@ import org.jgrapht.ext.ComponentAttributeProvider;
 import org.jgrapht.ext.GraphMLExporter;
 
 import com.google.common.collect.ImmutableList;
-import com.google.common.collect.ImmutableMap;
 
 public class BundleGraphProvider {
 
@@ -64,11 +64,12 @@ public class BundleGraphProvider {
 
     @Override
     public Map<String, String> getComponentAttributes(BundleField bundle) {
-      return ImmutableMap.of(
-          BUNDLE_NAME_ATTRI.getAttriName(), bundle.bundleName(),
-          BUNDLE_ID_ATTRI.getAttriName(), bundle.id() + "",
-          BUNDLE_LOCATION_ATTRI.getAttriName(), bundle.location(),
-          BUNDLE_STATE_ATTRI.getAttriName(), bundle.state());
+      Map<String, String> attributes = new HashMap<>();
+      attributes.put(BUNDLE_NAME_ATTRI.getAttriName(), bundle.bundleName());
+      attributes.put(BUNDLE_ID_ATTRI.getAttriName(), bundle.id() + "");
+      attributes.put(BUNDLE_LOCATION_ATTRI.getAttriName(), bundle.location());
+      attributes.put(BUNDLE_STATE_ATTRI.getAttriName(), bundle.state());
+      return attributes;
     }
   }
 }

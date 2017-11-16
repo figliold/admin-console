@@ -43,7 +43,6 @@ public class FeatureUtils {
     Map<String, BundleField> allBundlesByLocation =
         bundleUtils
             .getAllBundleFields()
-            .getList()
             .stream()
             .collect(Collectors.toMap(BundleField::location, bundle -> bundle));
 
@@ -86,7 +85,7 @@ public class FeatureUtils {
         : new BundleField().location(location);
   }
 
-  public FeaturesService getFeaturesService() {
-    return featuresService;
+  public Feature getFeature(String featureName) throws Exception {
+    return featuresService.getFeature(featureName);
   }
 }

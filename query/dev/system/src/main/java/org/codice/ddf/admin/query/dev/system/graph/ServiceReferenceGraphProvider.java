@@ -13,6 +13,7 @@
  */
 package org.codice.ddf.admin.query.dev.system.graph;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -21,7 +22,6 @@ import org.jgrapht.ext.ComponentAttributeProvider;
 import org.jgrapht.ext.GraphMLExporter;
 
 import com.google.common.collect.ImmutableList;
-import com.google.common.collect.ImmutableMap;
 
 public class ServiceReferenceGraphProvider {
 
@@ -61,11 +61,12 @@ public class ServiceReferenceGraphProvider {
 
     @Override
     public Map<String, String> getComponentAttributes(DependencyEdge<ServiceReferenceField> ref) {
-      return ImmutableMap.of(
-          SERVICE_NAME, ref.value().service().serviceName(),
-          SERVICE_RESOLUTION, ref.value().resolution(),
-          SERVICE_FILTER, ref.value().filter() + "",
-          SERVICE_INTERFACE, ref.value().serviceInterface());
+      Map<String, String> attributes = new HashMap<>();
+      attributes.put(SERVICE_NAME, ref.value().service().serviceName());
+      attributes.put(SERVICE_RESOLUTION, ref.value().resolution());
+      attributes.put(SERVICE_FILTER, ref.value().filter() + "");
+      attributes.put(SERVICE_INTERFACE, ref.value().serviceInterface());
+      return attributes;
     }
 
     public List<GraphMLAttribute> getAttributes() {

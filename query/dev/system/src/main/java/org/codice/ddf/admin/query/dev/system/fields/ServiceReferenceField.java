@@ -14,7 +14,6 @@
 package org.codice.ddf.admin.query.dev.system.fields;
 
 import com.google.common.collect.ImmutableList;
-import java.util.Collection;
 import java.util.List;
 import java.util.concurrent.Callable;
 import org.codice.ddf.admin.api.Field;
@@ -36,6 +35,10 @@ public class ServiceReferenceField extends BaseObjectField {
   public static final String SERVICE_FILTER = "filter";
 
   public static final String SERVICE_INTERFACE = "interface";
+
+  public static final String MANDATORY = "mandatory";
+
+  public static final String OPTIONAL = "optional";
 
   private StringField serviceInterface;
   private StringField filter;
@@ -66,7 +69,7 @@ public class ServiceReferenceField extends BaseObjectField {
   }
 
   public ServiceReferenceField resolution(long resolution) {
-    this.resolution.setValue(resolution(Math.toIntExact(resolution)));
+    this.resolution.setValue(getResolution(Math.toIntExact(resolution)));
     return this;
   }
 
@@ -91,8 +94,8 @@ public class ServiceReferenceField extends BaseObjectField {
     return service;
   }
 
-  private static String resolution(int i) {
-    return i == 1 ? "mandatory" : "optional";
+  public static String getResolution(int i) {
+    return i == 1 ? MANDATORY : OPTIONAL;
   }
 
   @Override
@@ -111,12 +114,6 @@ public class ServiceReferenceField extends BaseObjectField {
     @Override
     public Callable<ServiceReferenceField> getCreateListEntryCallable() {
       return ServiceReferenceField::new;
-    }
-
-    @Override
-    public ListImpl addAll(Collection<ServiceReferenceField> values) {
-      super.addAll(values);
-      return this;
     }
   }
 }

@@ -13,17 +13,19 @@
  */
 package org.codice.ddf.admin.query.dev.system.dependency;
 
+import com.google.common.annotations.VisibleForTesting;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Collectors;
 import org.apache.commons.collections.CollectionUtils;
+import org.apache.commons.lang.StringUtils;
 import org.apache.felix.utils.manifest.Clause;
 import org.apache.felix.utils.manifest.Parser;
 import org.apache.karaf.bundle.core.BundleService;
-import org.codice.ddf.admin.api.fields.ListField;
 import org.codice.ddf.admin.query.dev.system.discover.GetBundles;
 import org.codice.ddf.admin.query.dev.system.fields.BundleField;
 import org.codice.ddf.admin.query.dev.system.fields.PackageField;
@@ -39,7 +41,6 @@ import org.osgi.service.blueprint.container.BlueprintContainer;
 import org.osgi.service.blueprint.reflect.ComponentMetadata;
 import org.osgi.service.blueprint.reflect.ReferenceListMetadata;
 import org.osgi.service.blueprint.reflect.ReferenceMetadata;
-import org.osgi.service.blueprint.reflect.ServiceMetadata;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -47,21 +48,20 @@ public class BundleUtils {
 
   private static final Logger LOGGER = LoggerFactory.getLogger(BundleUtils.class);
   public static final String BLUEPRINT_BUNDLE_IDENTIFIER = "org.osgi.service.blueprint.container.BlueprintContainer";
-  private static final String EXPORT_PACKAGE_HEADER = "Export-Package";
+  public static final String EXPORT_PACKAGE_HEADER = "Export-Package";
   private BundleService bundleService;
 
   public BundleUtils(BundleService bundleService) {
     this.bundleService = bundleService;
   }
 
-  public ListField<BundleField> getAllBundleFields() {
+  public List<BundleField> getAllBundleFields() {
     return getBundles(null);
   }
 
-  public ListField<BundleField> getBundles(List<Integer> bundleIds) {
+  public List<BundleField> getBundles(List<Integer> bundleIds) {
     List<BundleField> bundlesFields = new ArrayList<>();
-    List<Bundle> bundles =
-        Arrays.asList(getBundleContext().getBundles());
+    List<Bundle> bundles = getAllBundles();
 
     if (CollectionUtils.isNotEmpty(bundleIds)) {
       bundles =
@@ -76,14 +76,15 @@ public class BundleUtils {
           new BundleField()
               .bundleName(bundle.getSymbolicName())
               .id(Math.toIntExact(bundle.getBundleId()))
-              .location(bundle.getLocation());
+              .location(bundle.getLocation())
+              .state(bundle.getState());
 
       populatePackages(bundle, newBundleField);
       populateServices(bundle, newBundleField);
       bundlesFields.add(newBundleField);
     }
 
-    return new BundleField.ListImpl().addAll(bundlesFields);
+    return bundlesFields;
   }
 
   private void populatePackages(Bundle bundle, BundleField toPopulate) {
@@ -94,7 +95,12 @@ public class BundleUtils {
               .bundleId(Math.toIntExact(pkgDep.getValue().getBundleId())));
     }
 
-    for (Clause clause : Parser.parseHeader(bundle.getHeaders().get(EXPORT_PACKAGE_HEADER))) {
+    String exportPkgHeader = bundle.getHeaders().get(EXPORT_PACKAGE_HEADER);
+    if (StringUtils.isEmpty(exportPkgHeader)) {
+      return;
+    }
+
+    for (Clause clause : Parser.parseHeader(exportPkgHeader)) {
       toPopulate.addExportedPackage(
           new PackageField()
               .pkgName(clause.getName())
@@ -103,7 +109,7 @@ public class BundleUtils {
   }
 
   private void populateServices(Bundle bundle, BundleField toPopulate) {
-    Optional<BlueprintContainer> blueprintContainer = getBlueprintService(bundle);
+    Optional<BlueprintContainer> blueprintContainer = getBlueprintContainer(bundle);
     if (blueprintContainer.isPresent()) {
       List<ComponentMetadata> cmpMetas =
           blueprintContainer
@@ -118,31 +124,15 @@ public class BundleUtils {
           populateServiceRefLists((ReferenceListMetadata) meta, bundle, toPopulate);
         } else if (meta instanceof ReferenceMetadata) {
           populateServiceRef((ReferenceMetadata) meta, bundle, toPopulate);
-        } else if (meta instanceof ServiceMetadata) {
-          ServiceReference[] refs = bundle.getRegisteredServices();
-
-          if (refs == null) {
-            continue;
-          }
-
-          Arrays.stream(refs).forEach(ref -> toPopulate.addService(new ServiceField(ref)));
+        } else {
+          LOGGER.warn("Unable to handle blueprint metadata of type {} for bundle {}.",
+              meta.getClass(),
+              bundle.getSymbolicName());
         }
       }
-    }
-  }
 
-  private Optional<BlueprintContainer> getBlueprintService(Bundle bundle) {
-    if (bundle.getRegisteredServices() == null || bundle.getRegisteredServices().length == 0) {
-      return Optional.empty();
+      getRegisteredServices(bundle).forEach(ref -> toPopulate.addService(createServiceField(ref)));
     }
-
-    return Arrays.stream(bundle.getRegisteredServices())
-        .filter(
-            ref ->
-                ref.toString().contains(BLUEPRINT_BUNDLE_IDENTIFIER))
-        .map(
-            ref -> bundle.getBundleContext().getService((ServiceReference<BlueprintContainer>) ref))
-        .findFirst();
   }
 
   private void populateServiceRefLists(
@@ -155,12 +145,10 @@ public class BundleUtils {
         .referenceListInterface(refListMeta.getInterface())
         .resolution(refListMeta.getAvailability());
 
-    ServiceReference[] refs = null;
+    List<ServiceReference> refs = new ArrayList<>();
 
     try {
-      refs =
-          bundle.getBundleContext().getServiceReferences(refListMeta.getInterface(), searchFilter);
-
+      refs.addAll(getServiceReferences(refListMeta.getInterface(), searchFilter));
     } catch (InvalidSyntaxException e) {
       LOGGER.warn(
           "Failed to parse filter for bundle {} during service reference look up. Filter was {}.",
@@ -168,11 +156,7 @@ public class BundleUtils {
           searchFilter);
     }
 
-    if (refs == null) {
-      return;
-    }
-
-    Arrays.stream(refs).forEach(ref -> refListF.addService(new ServiceField(ref)));
+    refs.forEach(ref -> refListF.addService(createServiceField(ref)));
     toPopulate.addServiceRefList(refListF);
   }
 
@@ -180,18 +164,14 @@ public class BundleUtils {
       ReferenceMetadata refMeta, Bundle bundle, BundleField toPopulate) {
     String searchFilter = formatFilter(refMeta.getFilter());
 
-    ServiceReference[] refs = null;
+    List<ServiceReference> refs = new ArrayList<>();
     try {
-      refs = bundle.getBundleContext().getServiceReferences(refMeta.getInterface(), searchFilter);
+      refs.addAll(getServiceReferences(refMeta.getInterface(), searchFilter));
     } catch (InvalidSyntaxException e) {
       LOGGER.warn(
           "Failed to parse filter for bundle {} during service reference look up. Filter was {}.",
           bundle.getSymbolicName(),
           searchFilter);
-    }
-
-    if (refs == null) {
-      return;
     }
 
     for (ServiceReference ref : refs) {
@@ -200,12 +180,19 @@ public class BundleUtils {
               .serviceInterface(refMeta.getInterface())
               .filter(searchFilter)
               .resolution(refMeta.getAvailability())
-              .service(new ServiceField(ref)));
+              .service(createServiceField(ref)));
     }
   }
 
   public static Optional<BundleField> getBundleById(List<BundleField> bundles, int id) {
     return bundles.stream().filter(bundle -> bundle.id().equals(id)).findFirst();
+  }
+
+  private ServiceField createServiceField(ServiceReference ref) {
+    ServiceField serviceField = new ServiceField();
+    serviceField.serviceName(getService(ref).toString());
+    serviceField.bundleId(ref.getBundle().getBundleId());
+    return serviceField;
   }
 
   private String formatFilter(String filter) {
@@ -218,5 +205,47 @@ public class BundleUtils {
 
   private BundleContext getBundleContext() {
     return FrameworkUtil.getBundle(GetBundles.class).getBundleContext();
+  }
+
+  @VisibleForTesting
+  protected Optional<BlueprintContainer> getBlueprintContainer(Bundle bundle) {
+    List<ServiceReference<?>> refs = getRegisteredServices(bundle);
+    if (refs.isEmpty()) {
+      return Optional.empty();
+    }
+
+    return refs.stream()
+        .filter(ref -> ref.toString().contains(BLUEPRINT_BUNDLE_IDENTIFIER))
+        .map(ref -> getService((ServiceReference<BlueprintContainer>) ref))
+        .findFirst();
+  }
+
+  @VisibleForTesting
+  protected <S> S getService(ServiceReference<S> ref) {
+    return getBundleContext().getService(ref);
+  }
+
+  @VisibleForTesting
+  protected List<ServiceReference> getServiceReferences(String refInterface, String filter)
+      throws InvalidSyntaxException {
+    ServiceReference[] refs = getBundleContext().getAllServiceReferences(refInterface, filter);
+    if (refs == null || refs.length == 0) {
+      return Collections.emptyList();
+    }
+    return Arrays.asList(refs);
+  }
+
+  @VisibleForTesting
+  protected List<ServiceReference<?>> getRegisteredServices(Bundle bundle) {
+    ServiceReference<?>[] refs = bundle.getRegisteredServices();
+    if (refs == null || refs.length == 0) {
+      return Collections.emptyList();
+    }
+    return Arrays.asList(refs);
+  }
+
+  @VisibleForTesting
+  protected List<Bundle> getAllBundles() {
+    return Arrays.asList(getBundleContext().getBundles());
   }
 }

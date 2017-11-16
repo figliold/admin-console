@@ -14,7 +14,6 @@
 package org.codice.ddf.admin.query.dev.system.fields;
 
 import com.google.common.collect.ImmutableList;
-import java.util.Collection;
 import java.util.List;
 import java.util.concurrent.Callable;
 import org.codice.ddf.admin.api.Field;
@@ -71,12 +70,6 @@ public class PackageField extends BaseObjectField {
 
   public static class ListImpl extends BaseListField<PackageField> {
 
-    public static final String DEFAULT_FIELD_NAME = "packages";
-
-    public ListImpl() {
-      super(DEFAULT_FIELD_NAME);
-    }
-
     public ListImpl(String fieldName) {
       super(fieldName);
     }
@@ -84,12 +77,6 @@ public class PackageField extends BaseObjectField {
     @Override
     public Callable<PackageField> getCreateListEntryCallable() {
       return PackageField::new;
-    }
-
-    @Override
-    public ListImpl addAll(Collection<PackageField> values) {
-      super.addAll(values);
-      return this;
     }
   }
 }

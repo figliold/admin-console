@@ -32,24 +32,28 @@ public class GetBundles extends BaseFunctionField<ListField<BundleField>> {
   public static final String DESCRIPTION =
       "Retrieves all bundles in the OSGI environment instance. If bundle id's are specified, only those bundles will be returned.";
 
-  public static final String BUNDLE_ID = "bundleIds";
+  public static final String BUNDLE_IDS = "bundleIds";
 
   private IntegerField.ListImpl bundleIds;
 
-  private BundleField.ListImpl returnType;
+  private static final BundleField.ListImpl RETURN_TYPE = new BundleField.ListImpl();
 
   private BundleUtils bundleUtils;
 
   public GetBundles(BundleUtils bundleUtils) {
     super(FIELD_NAME, DESCRIPTION);
-    bundleIds = new IntegerField.ListImpl(BUNDLE_ID);
-    returnType = new BundleField.ListImpl();
+    bundleIds = new IntegerField.ListImpl(BUNDLE_IDS);
     this.bundleUtils = bundleUtils;
   }
 
   @Override
   public ListField<BundleField> performFunction() {
-    return bundleUtils.getBundles(bundleIds.getValue());
+    if (bundleIds.getList().isEmpty()) {
+      return new BundleField.ListImpl().addAll(bundleUtils.getAllBundleFields());
+    } else {
+      List<BundleField> bundles = bundleUtils.getBundles(bundleIds.getValue());
+      return new BundleField.ListImpl().addAll(bundles);
+    }
   }
 
   @Override
@@ -69,6 +73,6 @@ public class GetBundles extends BaseFunctionField<ListField<BundleField>> {
 
   @Override
   public BundleField.ListImpl getReturnType() {
-    return returnType;
+    return RETURN_TYPE;
   }
 }

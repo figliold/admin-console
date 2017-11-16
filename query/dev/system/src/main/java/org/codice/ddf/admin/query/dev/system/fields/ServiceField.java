@@ -14,7 +14,6 @@
 package org.codice.ddf.admin.query.dev.system.fields;
 
 import com.google.common.collect.ImmutableList;
-import java.util.Collection;
 import java.util.List;
 import java.util.concurrent.Callable;
 import org.codice.ddf.admin.api.Field;
@@ -22,8 +21,6 @@ import org.codice.ddf.admin.common.fields.base.BaseListField;
 import org.codice.ddf.admin.common.fields.base.BaseObjectField;
 import org.codice.ddf.admin.common.fields.base.scalar.IntegerField;
 import org.codice.ddf.admin.common.fields.base.scalar.StringField;
-import org.osgi.framework.FrameworkUtil;
-import org.osgi.framework.ServiceReference;
 
 public class ServiceField extends BaseObjectField {
 
@@ -46,13 +43,6 @@ public class ServiceField extends BaseObjectField {
     super(DEFAULT_FIELD_NAME, FIELD_TYPE_NAME, DESCRIPTION);
     bundleName = new StringField(SERVICE_NAME);
     bundleId = new IntegerField(BUNDLE_ID);
-  }
-
-  public ServiceField(ServiceReference ref) {
-    this();
-    serviceName(
-        FrameworkUtil.getBundle(ServiceField.class).getBundleContext().getService(ref).toString());
-    bundleId(ref.getBundle().getBundleId());
   }
 
   public ServiceField serviceName(String name) {
@@ -89,12 +79,6 @@ public class ServiceField extends BaseObjectField {
     @Override
     public Callable<ServiceField> getCreateListEntryCallable() {
       return ServiceField::new;
-    }
-
-    @Override
-    public ListImpl addAll(Collection<ServiceField> values) {
-      super.addAll(values);
-      return this;
     }
   }
 }

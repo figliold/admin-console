@@ -13,15 +13,18 @@
  */
 package org.codice.ddf.admin.query.dev.system.fields;
 
-import com.google.common.collect.ImmutableList;
 import java.util.Collection;
 import java.util.List;
 import java.util.concurrent.Callable;
+
 import org.codice.ddf.admin.api.Field;
 import org.codice.ddf.admin.common.fields.base.BaseListField;
 import org.codice.ddf.admin.common.fields.base.BaseObjectField;
 import org.codice.ddf.admin.common.fields.base.scalar.IntegerField;
 import org.codice.ddf.admin.common.fields.base.scalar.StringField;
+import org.osgi.framework.Bundle;
+
+import com.google.common.collect.ImmutableList;
 
 public class BundleField extends BaseObjectField {
 
@@ -131,6 +134,16 @@ public class BundleField extends BaseObjectField {
     return state.getValue();
   }
 
+  public BundleField state(String state) {
+    this.state.setValue(state);
+    return this;
+  }
+
+  public BundleField state(int state) {
+    this.state.setValue(getBundleState(state));
+    return this;
+  }
+
   public List<PackageField> exportedPackages() {
     return exportedPkgs.getList();
   }
@@ -145,6 +158,29 @@ public class BundleField extends BaseObjectField {
 
   public List<ServiceReferenceField> serviceRefs() {
     return refs.getList();
+  }
+
+  public List<ServiceField> services() {
+    return services.getList();
+  }
+
+  public static String getBundleState(int state) {
+    switch (state) {
+      case Bundle.UNINSTALLED:
+        return "UNINSTALLED";
+      case Bundle.INSTALLED:
+        return "INSTALLED";
+      case Bundle.RESOLVED:
+        return "RESOLVED";
+      case Bundle.STARTING:
+        return "STARTING";
+      case Bundle.STOPPING:
+        return "STOPPING";
+      case Bundle.ACTIVE:
+        return "ACTIVE";
+      default:
+        return "UNDEFINED";
+    }
   }
 
   @Override

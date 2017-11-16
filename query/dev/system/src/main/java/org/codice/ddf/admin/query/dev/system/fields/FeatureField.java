@@ -113,8 +113,8 @@ public class FeatureField extends BaseObjectField {
     return featDescription.getValue();
   }
 
-  public UrlField repoUrl() {
-    return repoUrl;
+  public String repoUrl() {
+    return repoUrl.getValue();
   }
 
   public List<String> featDeps() {

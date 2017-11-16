@@ -1,6 +1,20 @@
+/**
+ * Copyright (c) Codice Foundation
+ *
+ * <p>This is free software: you can redistribute it and/or modify it under the terms of the GNU
+ * Lesser General Public License as published by the Free Software Foundation, either version 3 of
+ * the License, or any later version.
+ *
+ * <p>This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY;
+ * without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * GNU Lesser General Public License for more details. A copy of the GNU Lesser General Public
+ * License is distributed along with this program and can be found at
+ * <http://www.gnu.org/licenses/lgpl.html>.
+ */
 package org.codice.ddf.admin.query.dev.system.persist;
 
 import static org.codice.ddf.admin.common.report.message.DefaultMessages.DIRECTORY_DOES_NOT_EXIST;
+import static org.codice.ddf.admin.common.report.message.DefaultMessages.FAILED_PERSIST;
 import static org.codice.ddf.admin.common.report.message.DefaultMessages.failedPersistError;
 
 import com.google.common.collect.ImmutableList;
@@ -23,7 +37,6 @@ import org.codice.ddf.admin.query.dev.system.graph.BundleGraphProvider;
 import org.codice.ddf.admin.query.dev.system.graph.DependencyEdge;
 import org.codice.ddf.admin.query.dev.system.graph.PackageGraphProvider;
 import org.jgrapht.DirectedGraph;
-import org.jgrapht.ext.ExportException;
 import org.jgrapht.ext.GraphMLExporter;
 import org.jgrapht.graph.DirectedPseudograph;
 import org.slf4j.Logger;
@@ -33,18 +46,18 @@ public class CreatePackageDependencyGraph extends BaseFunctionField<BooleanField
 
   private static final Logger LOGGER = LoggerFactory.getLogger(CreatePackageDependencyGraph.class);
 
-  private static final String DEFAULT_GRAPH_NAME = "packageDependenciesGraph.graphml";
-  private static final String FUNCTION_NAME = "createPackageDependenciesGraph";
+  public static final String DEFAULT_GRAPH_NAME = "packageDependenciesGraph.graphml";
+  public static final String FUNCTION_NAME = "createPackageDependenciesGraph";
   private static final String DESCRIPTION =
       "Saves a graph called \'"
           + DEFAULT_GRAPH_NAME
           + "\' consisting of bundles as the vertices and services as edges."
           + "By default, the graph save path is under ddf.home. The file format is in graphml. Look here for more information: http://graphml.graphdrawing.org/";
 
-  private static final String SAVE_DIR_FIELD_NAME = "saveDirectory";
-
   private static final BooleanField RETURN_TYPE = new BooleanField();
-  private static final Set<String> ERROR_CODES = ImmutableSet.of(DIRECTORY_DOES_NOT_EXIST);
+  private static final Set<String> ERROR_CODES = ImmutableSet.of(DIRECTORY_DOES_NOT_EXIST, FAILED_PERSIST);
+
+  public static final String SAVE_DIR = "saveDir";
 
   private GraphMLExporter<BundleField, DependencyEdge<PackageField>> exporter;
   private static final BundleGraphProvider.BundleVertexAttributeProvider BUNDLE_VERTEX_PROV =
@@ -58,7 +71,7 @@ public class CreatePackageDependencyGraph extends BaseFunctionField<BooleanField
   public CreatePackageDependencyGraph(BundleUtils bundleUtils) {
     super(FUNCTION_NAME, DESCRIPTION);
     this.bundleUtils = bundleUtils;
-    saveDir = new DirectoryField(SAVE_DIR_FIELD_NAME).validateDirectoryExists();
+    saveDir = new DirectoryField(SAVE_DIR).validateDirectoryExists();
 
     exporter = new GraphMLExporter<>();
     exporter.setVertexAttributeProvider(BUNDLE_VERTEX_PROV);
@@ -80,7 +93,7 @@ public class CreatePackageDependencyGraph extends BaseFunctionField<BooleanField
 
     try {
       exporter.exportGraph(graph, Paths.get(savePath, DEFAULT_GRAPH_NAME).toFile());
-    } catch (ExportException e) {
+    } catch (Exception e) {
       LOGGER.error("Failed to export features graph.", e);
       addErrorMessage(failedPersistError());
     }
@@ -89,7 +102,7 @@ public class CreatePackageDependencyGraph extends BaseFunctionField<BooleanField
 
   private DirectedGraph<BundleField, DependencyEdge<PackageField>> createPkgDependencyGraph() {
     DirectedGraph graph = new DirectedPseudograph<>(ServiceReferenceField.class);
-    List<BundleField> allBundles = bundleUtils.getAllBundleFields().getList();
+    List<BundleField> allBundles = bundleUtils.getAllBundleFields();
     allBundles.forEach(graph::addVertex);
     allBundles.forEach(bundle -> createEdgesFromPkgs(bundle, graph, allBundles));
     return graph;
