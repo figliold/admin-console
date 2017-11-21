@@ -26,7 +26,7 @@ public class GraphQLTransformScalar {
     scalarTypesProvider = new GraphQLTypesProviderImpl<>();
   }
 
-  @SuppressWarnings("squid:SwitchLastCaseIsDefaultCheck" /* No deafult case */)
+  @SuppressWarnings("squid:SwitchLastCaseIsDefaultCheck" /* No default case in switch statement*/)
   public GraphQLScalarType resolveScalarType(ScalarField field) {
     if (scalarTypesProvider.isTypePresent(field.getFieldType())) {
       return scalarTypesProvider.getType(field.getFieldType());

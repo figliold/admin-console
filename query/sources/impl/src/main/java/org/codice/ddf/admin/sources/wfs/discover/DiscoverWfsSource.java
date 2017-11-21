@@ -95,7 +95,6 @@ public class DiscoverWfsSource extends BaseFunctionField<WfsSourceConfigurationF
     return ImmutableSet.of(DefaultMessages.CANNOT_CONNECT, DefaultMessages.UNKNOWN_ENDPOINT);
   }
 
-  /** For testing purposes only. Groovy can access private methods */
   @VisibleForTesting
   private void setWfsSourceUtils(WfsSourceUtils wfsSourceUtils) {
     this.wfsSourceUtils = wfsSourceUtils;

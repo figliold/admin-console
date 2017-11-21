@@ -33,7 +33,7 @@ import org.codice.ddf.admin.comp.test.PlatformAppFeatureFile;
 import org.codice.ddf.admin.comp.test.SecurityAppFeatureFile;
 import org.codice.ddf.admin.ldap.fields.config.LdapConfigurationField;
 import org.codice.ddf.admin.ldap.fields.config.LdapDirectorySettingsField;
-import org.codice.ddf.admin.ldap.fields.connection.LdapBindMethod;
+import org.codice.ddf.admin.ldap.fields.connection.LdapBindMethod.SimpleEnumValue;
 import org.codice.ddf.admin.ldap.fields.connection.LdapBindUserInfo;
 import org.codice.ddf.admin.ldap.fields.connection.LdapConnectionField;
 import org.codice.ddf.admin.ldap.fields.connection.LdapEncryptionMethodField;
@@ -249,9 +249,7 @@ public class AdminSecurityIT extends AbstractComponentTest {
     CredentialsField creds = new CredentialsField().username(TEST_USERNAME).password(TEST_PASSWORD);
 
     LdapBindUserInfo bindUserInfo =
-        new LdapBindUserInfo()
-            .bindMethod(LdapBindMethod.Simple.SIMPLE_ENUM)
-            .credentialsField(creds);
+        new LdapBindUserInfo().bindMethod(SimpleEnumValue.SIMPLE).credentialsField(creds);
 
     LdapConnectionField connection =
         new LdapConnectionField()

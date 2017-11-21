@@ -106,13 +106,6 @@ public class LdapTestBind extends TestFunctionField {
         DefaultMessages.CANNOT_CONNECT);
   }
 
-  /**
-   * Intentionally scoped as private. This is a test support method to be invoked by Spock tests
-   * which will elevate scope as needed in order to execute. If Java-based unit tests are ever
-   * needed, this scope will need to be updated to package-private.
-   *
-   * @param utils Ldap support utilities
-   */
   @VisibleForTesting
   private void setTestingUtils(LdapTestingUtils utils) {
     this.utils = utils;

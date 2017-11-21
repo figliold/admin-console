@@ -44,7 +44,7 @@ public class ServiceCommons {
 
   // A flag to indicate if a service being updated has a password of "secret". If so, the
   // password will not be updated.
-  @SuppressWarnings("squid:S2068")
+  @SuppressWarnings("squid:S2068" /* Placeholder not a hard-coded password */)
   public static final String FLAG_PASSWORD = "secret";
 
   private final ConfiguratorSuite configuratorSuite;

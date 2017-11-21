@@ -22,7 +22,6 @@ import graphql.schema.GraphQLObjectType;
 import graphql.schema.GraphQLOutputType;
 import graphql.schema.GraphQLTypeReference;
 import graphql.servlet.GraphQLTypesProvider;
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -54,7 +53,7 @@ public class GraphQLTransformOutput {
     referenceTypeProvider = new GraphQLTypesProviderImpl<>();
   }
 
-  @SuppressWarnings("squid:S00112" /* Throwing Runtime exception */)
+  @SuppressWarnings("squid:S00112" /* Throwing Runtime exception intentionally */)
   public GraphQLOutputType fieldToGraphQLOutputType(Field field) {
     if (outputTypeProvider.isTypePresent(field.getFieldType())) {
       return outputTypeProvider.getType(field.getFieldType());
@@ -183,7 +182,7 @@ public class GraphQLTransformOutput {
               .stream()
               .map(Field::getSanitizedValue)
               .collect(Collectors.toList()),
-          (Serializable) result.getErrorMessages());
+          result.getErrorMessages());
     } else if (result.isResultPresent()) {
       return result.getResult().getSanitizedValue();
     }

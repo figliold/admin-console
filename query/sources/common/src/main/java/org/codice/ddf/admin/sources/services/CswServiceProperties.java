@@ -43,7 +43,7 @@ public class CswServiceProperties {
 
   public static final String USERNAME = "username";
 
-  @SuppressWarnings("squid:S2068" /* Used internally as a place-holder */)
+  @SuppressWarnings("squid:S2068" /* Used as a key, not a hard-coded password */)
   public static final String PASSWORD = "password";
 
   public static final String ID = "id";

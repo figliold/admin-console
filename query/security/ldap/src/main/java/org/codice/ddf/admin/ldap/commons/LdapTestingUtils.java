@@ -17,7 +17,7 @@ import static org.codice.ddf.admin.common.report.message.DefaultMessages.cannotC
 import static org.codice.ddf.admin.common.report.message.DefaultMessages.failedTestSetup;
 import static org.codice.ddf.admin.ldap.commons.LdapMessages.dnDoesNotExistError;
 import static org.codice.ddf.admin.ldap.fields.connection.LdapBindMethod.DigestMd5Sasl.DIGEST_MD5_SASL;
-import static org.codice.ddf.admin.ldap.fields.connection.LdapBindMethod.Simple.SIMPLE_ENUM;
+import static org.codice.ddf.admin.ldap.fields.connection.LdapBindMethod.SimpleEnumValue.SIMPLE;
 import static org.codice.ddf.admin.ldap.fields.connection.LdapEncryptionMethodField.LdapsEncryption.LDAPS;
 import static org.codice.ddf.admin.ldap.fields.connection.LdapEncryptionMethodField.StartTlsEncryption.START_TLS;
 
@@ -59,7 +59,7 @@ public class LdapTestingUtils {
    *
    * @return connection attempt wrapper object
    */
-  @SuppressWarnings("squid:S2095" /* Method returns an LdapConnectionAttempt */)
+  @SuppressWarnings("squid:S2095" /* Method returns an open LdapConnectionAttempt */)
   public LdapConnectionAttempt getLdapConnection(LdapConnectionField connection) {
     Options ldapOptions = Options.defaultOptions();
 
@@ -112,7 +112,7 @@ public class LdapTestingUtils {
    * @param bindInfo
    * @return
    */
-  @SuppressWarnings("squid:S2095" /* Method returns an LdapConnectionAttempt */)
+  @SuppressWarnings("squid:S2095" /* Method returns an open LdapConnectionAttempt */)
   public LdapConnectionAttempt bindUserToLdapConnection(
       LdapConnectionField connField, LdapBindUserInfo bindInfo) {
     // This ConnectionAttempt intentionally not closed as its internal connection is bound
@@ -220,7 +220,7 @@ public class LdapTestingUtils {
           ((DigestMD5SASLBindRequest) request).setRealm(realm);
         }
         break;
-      case SIMPLE_ENUM:
+      case SIMPLE:
       default:
         request = Requests.newSimpleBindRequest(bindUser, password.toCharArray());
         break;

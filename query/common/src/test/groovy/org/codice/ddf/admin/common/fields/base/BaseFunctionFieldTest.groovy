@@ -42,7 +42,7 @@ class BaseFunctionFieldTest extends Specification {
         report.getErrorMessages().size() == 1
         report.getErrorMessages()[0].getCode() == DefaultMessages.EMPTY_FIELD
         report.getErrorMessages()[0].getPath() == [
-                TestBaseFunctionField.DEFAULT_FIELD_NAME, StringField.STRING_FIELD_DEFAULT_FIELD_NAME
+                TestBaseFunctionField.DEFAULT_FIELD_NAME, StringField.DEFAULT_STRING_FIELD_NAME
         ]
     }
 
@@ -52,9 +52,9 @@ class BaseFunctionFieldTest extends Specification {
 
         when:
         def value = [
-                (StringField.STRING_FIELD_DEFAULT_FIELD_NAME): 'test1',
-                (TestObjectField.FIELD_NAME)                 : [
-                        (StringField.STRING_FIELD_DEFAULT_FIELD_NAME): 'test2',
+                (StringField.DEFAULT_STRING_FIELD_NAME): 'test1',
+                (TestObjectField.FIELD_NAME)           : [
+                        (StringField.DEFAULT_STRING_FIELD_NAME)  : 'test2',
                         (TestObjectField.INNER_OBJECT_FIELD_NAME): [
                                 (TestObjectField.SUB_FIELD_OF_INNER_FIELD_NAME): 'test3'
                         ]

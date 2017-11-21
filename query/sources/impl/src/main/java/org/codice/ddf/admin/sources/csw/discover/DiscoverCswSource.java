@@ -95,7 +95,6 @@ public class DiscoverCswSource extends BaseFunctionField<CswSourceConfigurationF
     return ImmutableSet.of(DefaultMessages.CANNOT_CONNECT, DefaultMessages.UNKNOWN_ENDPOINT);
   }
 
-  /** For testing purposes only. Groovy can access private methods */
   @VisibleForTesting
   private void setCswSourceUtils(CswSourceUtils cswSourceUtils) {
     this.cswSourceUtils = cswSourceUtils;

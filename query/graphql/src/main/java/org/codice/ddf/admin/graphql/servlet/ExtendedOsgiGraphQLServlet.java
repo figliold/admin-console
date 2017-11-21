@@ -140,8 +140,8 @@ public class ExtendedOsgiGraphQLServlet extends OsgiGraphQLServlet implements Ev
   @Override
   @SuppressWarnings({
     "squid:S1135" /* Remove when TODO is completed */,
-    "squid:S1181" /* Catching throwable */,
-    "squid:S1989" /* Throwing exception in servlet */
+    "squid:S1181" /* Catching throwable intentionally */,
+    "squid:S1989" /* Throwing exception in servlet intentionally */
   })
   protected void doPost(HttpServletRequest originalRequest, HttpServletResponse originalResponse)
       throws ServletException, IOException {
