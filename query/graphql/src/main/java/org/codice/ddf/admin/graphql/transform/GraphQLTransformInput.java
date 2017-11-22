@@ -53,7 +53,7 @@ public class GraphQLTransformInput {
         .build();
   }
 
-  @SuppressWarnings("squid:S00112" /* Throwing Runtime exception */)
+  @SuppressWarnings("squid:S00112" /* Throwing Runtime exception intentionally */)
   public GraphQLInputType fieldTypeToGraphQLInputType(Field field) {
     if (inputTypesProvider.isTypePresent(field.getFieldType())) {
       return inputTypesProvider.getType(field.getFieldType());

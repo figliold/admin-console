@@ -18,7 +18,7 @@ import static org.codice.ddf.admin.common.services.ServiceCommons.SERVICE_PID_KE
 import static org.codice.ddf.admin.common.services.ServiceCommons.mapValue;
 import static org.codice.ddf.admin.ldap.fields.connection.LdapEncryptionMethodField.LdapsEncryption.LDAPS;
 import static org.codice.ddf.admin.security.common.fields.ldap.LdapUseCase.AttributeStore.ATTRIBUTE_STORE;
-import static org.codice.ddf.admin.security.common.fields.ldap.LdapUseCase.Authentication.AUTHENTICATION_ENUM;
+import static org.codice.ddf.admin.security.common.fields.ldap.LdapUseCase.AuthenticationEnumValue.AUTHENTICATION;
 import static org.codice.ddf.admin.security.common.services.LdapClaimsHandlerServiceProperties.PROPERTY_FILE_LOCATION;
 
 import java.net.URI;
@@ -232,7 +232,7 @@ public class LdapServiceCommons {
                 mapValue(props, LdapLoginServiceProperties.MEMBERSHIP_USER_ATTRIBUTE))
             .baseUserDn(mapValue(props, LdapLoginServiceProperties.USER_BASE_DN))
             .baseGroupDn(mapValue(props, LdapLoginServiceProperties.GROUP_BASE_DN))
-            .useCase(AUTHENTICATION_ENUM);
+            .useCase(AUTHENTICATION);
 
     return new LdapConfigurationField()
         .connection(connection)

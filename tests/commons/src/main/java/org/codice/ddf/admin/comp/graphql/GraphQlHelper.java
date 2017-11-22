@@ -32,7 +32,7 @@ public class GraphQlHelper {
   private static final Logger LOGGER = LoggerFactory.getLogger(GraphQlHelper.class);
   public static final String USERNAME = "admin";
 
-  @SuppressWarnings("squid:S2068" /* Password used internally as a place-holder */)
+  @SuppressWarnings("squid:S2068" /* Password used internally */)
   public static final String PASSWORD = "admin";
 
   private Class resourceClass;

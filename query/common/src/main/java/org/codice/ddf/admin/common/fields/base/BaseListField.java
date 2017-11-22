@@ -67,7 +67,7 @@ public abstract class BaseListField<T extends Field> extends BaseField<List>
   }
 
   @Override
-  @SuppressWarnings("squid:S00112" /* Throwing RuntimeException */)
+  @SuppressWarnings("squid:S00112" /* Throwing RuntimeException intentionally */)
   public T createListEntry() {
     try {
       return getCreateListEntryCallable().call();

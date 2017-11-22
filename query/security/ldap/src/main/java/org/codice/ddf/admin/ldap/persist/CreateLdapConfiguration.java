@@ -15,8 +15,8 @@ package org.codice.ddf.admin.ldap.persist;
 
 import static org.codice.ddf.admin.common.report.message.DefaultMessages.failedPersistError;
 import static org.codice.ddf.admin.security.common.fields.ldap.LdapUseCase.AttributeStore.ATTRIBUTE_STORE;
-import static org.codice.ddf.admin.security.common.fields.ldap.LdapUseCase.Authentication.AUTHENTICATION_ENUM;
 import static org.codice.ddf.admin.security.common.fields.ldap.LdapUseCase.AuthenticationAndAttributeStore.AUTHENTICATION_AND_ATTRIBUTE_STORE;
+import static org.codice.ddf.admin.security.common.fields.ldap.LdapUseCase.AuthenticationEnumValue.AUTHENTICATION;
 
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableSet;
@@ -78,7 +78,7 @@ public class CreateLdapConfiguration extends BaseFunctionField<BooleanField> {
 
     String authType = config.settingsField().useCase();
 
-    if (authType.equalsIgnoreCase(AUTHENTICATION_ENUM)
+    if (authType.equalsIgnoreCase(AUTHENTICATION)
         || authType.equalsIgnoreCase(AUTHENTICATION_AND_ATTRIBUTE_STORE)) {
       Map<String, Object> ldapLoginServiceProps =
           ldapServiceCommons.ldapConfigurationToLdapLoginService(config);

@@ -89,7 +89,7 @@ public class ClaimsMapEntry extends BaseObjectField {
       return validationMsgs;
     }
 
-    if (key.getValue() != null && value.getValue() == null || value.getValue().isEmpty()) {
+    if (key.getValue() != null && (value.getValue() == null || value.getValue().isEmpty())) {
       validationMsgs.add(missingKeyValue(value.getPath()));
     }
     return validationMsgs;

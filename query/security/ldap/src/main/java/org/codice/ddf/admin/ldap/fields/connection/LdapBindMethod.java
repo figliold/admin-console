@@ -33,19 +33,19 @@ public class LdapBindMethod extends BaseEnumField<String> {
         DEFAULT_FIELD_NAME,
         FIELD_TYPE_NAME,
         DESCRIPTION,
-        ImmutableList.of(new Simple(), new DigestMd5Sasl()),
+        ImmutableList.of(new SimpleEnumValue(), new DigestMd5Sasl()),
         bindMethod);
   }
 
-  public static final class Simple implements EnumValue<String> {
-    public static final String SIMPLE_ENUM = "Simple";
+  public static final class SimpleEnumValue implements EnumValue<String> {
+    public static final String SIMPLE = "Simple";
 
     public static final String DESCRIPTION =
         "Authenticates a client to a server, using a plaintext password";
 
     @Override
     public String getEnumTitle() {
-      return SIMPLE_ENUM;
+      return SIMPLE;
     }
 
     @Override
@@ -55,7 +55,7 @@ public class LdapBindMethod extends BaseEnumField<String> {
 
     @Override
     public String getValue() {
-      return SIMPLE_ENUM;
+      return SIMPLE;
     }
   }
 

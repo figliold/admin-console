@@ -140,8 +140,8 @@ public class ExtendedOsgiGraphQLServlet extends OsgiGraphQLServlet implements Ev
   @Override
   @SuppressWarnings({
     "squid:S1135" /* Remove when TODO is completed */,
-    "squid:S1181" /* Catching throwable */,
-    "squid:S1989" /* Throwing exception in servlet */
+    "squid:S1181" /* Catching throwable intentionally */,
+    "squid:S1989" /* Throwing exception in servlet intentionally */
   })
   protected void doPost(HttpServletRequest originalRequest, HttpServletResponse originalResponse)
       throws ServletException, IOException {
@@ -167,7 +167,7 @@ public class ExtendedOsgiGraphQLServlet extends OsgiGraphQLServlet implements Ev
 
     // TODO: tbatie - 6/9/17 - GraphQLServlet does not support batched requests even though a
     // BatchedExecutionStrategy exists. This should be fixed in the GraphQLServlet and contributed
-    // back to graphql-java-servlet
+    // back to graphql-java-servlet. Remove sonar suppression when task is completed.
     List<String> responses = new ArrayList<>();
     String originalReqContent = IOUtils.toString(originalRequest.getInputStream());
     boolean isBatchRequest = isBatchRequest(originalReqContent);

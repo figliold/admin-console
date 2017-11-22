@@ -31,7 +31,7 @@ import spock.lang.Specification
 
 import static org.codice.ddf.admin.ldap.LdapTestingCommons.*
 import static org.codice.ddf.admin.security.common.fields.ldap.LdapUseCase.AttributeStore.ATTRIBUTE_STORE
-import static org.codice.ddf.admin.security.common.fields.ldap.LdapUseCase.Authentication.AUTHENTICATION_ENUM
+import static org.codice.ddf.admin.security.common.fields.ldap.LdapUseCase.AuthenticationEnumValue.AUTHENTICATION
 
 class LdapTestDirectorySettingsSpec extends Specification {
     static final List<Object> FUNCTION_PATH = [LdapTestDirectorySettings.FIELD_NAME]
@@ -158,7 +158,7 @@ class LdapTestDirectorySettingsSpec extends Specification {
 
     def 'fail to connect to LDAP'() {
         setup:
-        def ldapSettings = initLdapSettings(AUTHENTICATION_ENUM)
+        def ldapSettings = initLdapSettings(AUTHENTICATION)
 
         args = [(LdapConnectionField.DEFAULT_FIELD_NAME)       : noEncryptionLdapConnectionInfo().port(666).getValue(),
                 (LdapBindUserInfo.DEFAULT_FIELD_NAME)          : simpleBindInfo().getValue(),
@@ -177,7 +177,7 @@ class LdapTestDirectorySettingsSpec extends Specification {
 
     def 'fail to bind to LDAP'() {
         setup:
-        def ldapSettings = initLdapSettings(AUTHENTICATION_ENUM)
+        def ldapSettings = initLdapSettings(AUTHENTICATION)
 
         args = [(LdapConnectionField.DEFAULT_FIELD_NAME)       : noEncryptionLdapConnectionInfo().getValue(),
                 (LdapBindUserInfo.DEFAULT_FIELD_NAME)          : simpleBindInfo().password('badPassword').getValue(),
@@ -402,7 +402,7 @@ class LdapTestDirectorySettingsSpec extends Specification {
 
     def 'When useCase = Authentication, checkGroupObjectClass, checkGroup, and checkReferencedUser should be applied'() {
         setup:
-        def ldapSettings = initLdapSettings(AUTHENTICATION_ENUM, true)
+        def ldapSettings = initLdapSettings(AUTHENTICATION, true)
         args = [(LdapConnectionField.DEFAULT_FIELD_NAME)       : noEncryptionLdapConnectionInfo().getValue(),
                 (LdapBindUserInfo.DEFAULT_FIELD_NAME)          : simpleBindInfo().getValue(),
                 (LdapDirectorySettingsField.DEFAULT_FIELD_NAME): ldapSettings.getValue()]

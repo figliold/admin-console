@@ -76,7 +76,7 @@ public abstract class ServerGuesser {
           ServerGuesser.OpenLdapGuesser::new,
           LdapTypeField.OpenDJ.OPEN_DJ,
           ServerGuesser.OpenDjGuesser::new,
-          LdapTypeField.Unknown.UNKNOWN_ENUM,
+          LdapTypeField.UnknownEnumValue.UNKNOWN,
           DefaultGuesser::new);
 
   protected final Connection connection;
